@@ -1,6 +1,6 @@
 from pykhipu.client import Client
 from exceptions import KhipuGetBanksException
-from constants import PICTURE_URL, RETURN_URL, CANCEL_URL
+from constants import PICTURE_URL, RETURN_URL, CANCEL_URL, CURRENCY_CLP
 
 
 class PaymentMethod(object):
@@ -26,15 +26,15 @@ class KhipuPayment(object):
             print(e)
             return None
 
-    def create_payment(self, subject, currency, amount, transaction_id, body):
+    def create_payment(self, subject, amount, transaction_id, body):
         try:
             print('create_payment')
             payment = self.client.payments.post(
                 subject=subject,
-                currency=currency, 
+                currency=CURRENCY_CLP, 
                 amount=amount,
                 transaction_id=transaction_id,
-                return_url='http://mi-ecomerce.com/backend/return',
+                return_url='http://127.0.0.1:8001/payment/confirm',
                 cancel_url='http://mi-ecomerce.com/backend/cancel',
                 picture_url='',
                 body=body
