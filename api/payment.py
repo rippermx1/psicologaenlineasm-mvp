@@ -35,8 +35,8 @@ class KhipuPayment(object):
                 amount=amount,
                 transaction_id=transaction_id,
                 return_url='http://127.0.0.1:8001/payment/confirm',
-                cancel_url='http://mi-ecomerce.com/backend/cancel',
-                picture_url='',
+                cancel_url='http://127.0.0.1:8001/payment/error',
+                picture_url='https://images.deepai.org/machine-learning-models/0c7ba850aa2443d7b40f9a45d9c86d3f/text2imgthumb.jpeg',
                 body=body
                 )
             return payment.payment_url

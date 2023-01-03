@@ -2,3 +2,4 @@ pykhipu
 fastapi
 uvicorn
 uuid
+pymongo
