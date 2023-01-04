@@ -10,6 +10,7 @@ import { MatNativeDateModule, MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [],
@@ -22,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     MatChipsModule,
     MatCheckboxModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatStepperModule,
@@ -33,7 +35,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDatepickerModule,
     MatChipsModule,
     MatCheckboxModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}

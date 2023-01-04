@@ -6,3 +6,7 @@ class PacientPaymentRequest(BaseModel):
     email: str
     cellphone: str
     age: str    
+
+
+class PaymentTrxId(BaseModel):
+    trx_id: str

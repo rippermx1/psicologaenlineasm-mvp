@@ -2,14 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi import Request
-from models import PacientPaymentRequest
+from models import PacientPaymentRequest, PaymentTrxId
 from payment import KhipuPayment
 from exceptions import ConfirmationPaymentException
 from uuid import uuid4
-import json
-from firebase import FirebaseDatabase
 
-db = FirebaseDatabase()
+
 payment = KhipuPayment()
 app = FastAPI()
 
@@ -28,19 +26,15 @@ def read_root():
 
 @app.post("/payment/create")
 def comfirmation(request: PacientPaymentRequest):
-    transaction_id = uuid4()    
+    transaction_id = str(uuid4())
+    transaction_body = {
+        'subject': 'plan name',
+        'amount': 10500,
+        'transaction_id': transaction_id,
+        'body': 'Descripción de la compra'
+    }
     try:
-        payment_url = payment.create_payment(
-            subject='plan name',
-            amount=10500, # plan price
-            transaction_id=transaction_id,
-            body='Descripción de la compra' # plan description
-        )
-        # TO DO: Insert Mongo DB
-        # get plan by id
-        # get price plan's
-        # database.payment.insert(email, transaction_id, plan_id, date, amount,)
-        db.add_payment(payment)
+        payment_url = payment.create_payment(transaction_body)
         print(payment_url)
         return {'payment_url': payment_url}
     except ConfirmationPaymentException as e:
@@ -50,9 +44,9 @@ def comfirmation(request: PacientPaymentRequest):
 
 @app.get("/payment/confirm")
 async def confirm_payment(request: Request):
+    trx_id = request.query_params.get('trx_id')
     try:
-        print(json.loads(await request.json()))
-        return RedirectResponse('http://localhost:4200/schedule-meet/payment/confirm?trx_id=', status_code=302)
+        return RedirectResponse(f'http://localhost:4200/schedule-meet/payment/confirm?trx_id={trx_id}', status_code=302)
     except ConfirmationPaymentException as e:
         print(e)
         return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
@@ -64,9 +58,17 @@ async def confirm_payment(request: Request):
     return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
 
 
-@app.get("/payment/order/status")
-async def payment_order_status(request: Request):
+@app.post("/payment/status")
+async def payment_status(request: PaymentTrxId):
     try:
-        pass
+        _payment = payment.get_payment(request.trx_id)
+        print(_payment)
+        print(_payment.payment_id, _payment.status, _payment.status_detail)
+        if _payment.status == 'done':
+            print(_payment.payment_id, _payment.status, _payment.status_detail)
+            payment.update_payment_status(_payment)
+            return {'status': _payment.status, 'status_detail': _payment.status_detail}
+        else:
+            return {'status': 'pending', 'status_detail': 'pending'}
     except ConfirmationPaymentException as e:
         pass
