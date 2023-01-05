@@ -6,9 +6,12 @@ from models import PacientPaymentRequest, PaymentTrxId
 from payment import KhipuPayment
 from exceptions import ConfirmationPaymentException
 from uuid import uuid4
+from firebase import FirebaseAuth, FirebaseDatabase
 
 
 payment = KhipuPayment()
+auth = FirebaseAuth()
+db = FirebaseDatabase()
 app = FastAPI()
 
 app.add_middleware(
@@ -26,6 +29,8 @@ def read_root():
 
 @app.post("/payment/create")
 def comfirmation(request: PacientPaymentRequest):
+    user_email = None
+    user_uid = None
     transaction_id = str(uuid4())
     transaction_body = {
         'subject': 'plan name',
@@ -34,6 +39,22 @@ def comfirmation(request: PacientPaymentRequest):
         'body': 'Descripción de la compra'
     }
     try:
+        user = db.get_user_by_email(request.email)[0]
+        print(user)
+        
+        if not user:
+            user = auth.create_user(request.email, 'password')
+            db.add_user(user)
+            print(user)
+            user_email = user.email
+            user_uid = user.uid
+        else:
+            user_email = user['email']
+            user_uid = user['uid']
+        
+        transaction_body['user_email'] = user_email
+        transaction_body['user_id'] = user_uid
+
         payment_url = payment.create_payment(transaction_body)
         print(payment_url)
         return {'payment_url': payment_url}

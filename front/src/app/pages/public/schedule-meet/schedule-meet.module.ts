@@ -5,6 +5,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ScheduleMeetRoutingModule } from './schedule-meet-routing.module';
 import { PaymentErrorComponent } from './pages/payment-error/payment-error.component';
 import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
+import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 
 
 
@@ -12,7 +13,8 @@ import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm
   declarations: [
     ScheduleMeetComponent,
     PaymentConfirmComponent,
-    PaymentErrorComponent
+    PaymentErrorComponent,
+    PaymentSuccessComponent
   ],
   imports: [
     CommonModule,

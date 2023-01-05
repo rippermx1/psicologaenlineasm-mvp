@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class PaymentConfirmComponent implements OnInit {
   // $getPayment: Observable = new Observable();
-  pending: boolean = false;
+  pending: boolean = true;
   constructor(
     private _service: ScheduleMeetService,
     private route: ActivatedRoute,
@@ -22,9 +22,8 @@ export class PaymentConfirmComponent implements OnInit {
     .subscribe((response) => {
       console.log(response);
       if (response.status == 'done') {
-        this.router.navigate(['/']);
-      } else {
-        this.pending = true;
+        this.pending = false;
+        this.router.navigate(['schedule-meet/payment/success']);
       }
     });
   }

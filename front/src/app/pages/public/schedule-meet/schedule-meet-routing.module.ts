@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
 import { PaymentErrorComponent } from './pages/payment-error/payment-error.component';
+import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { ScheduleMeetComponent } from './schedule-meet.component';
 
 const routes: Routes = [
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path:'payment/error',
     component: PaymentErrorComponent
+  },
+  {
+    path:'payment/success',
+    component: PaymentSuccessComponent
   }
 ];
 
