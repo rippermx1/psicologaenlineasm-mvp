@@ -1,22 +1,8 @@
-@mixin for-size($size)
-    @if $size == phone-only
-        @media (max-width: 599px)
-            @content
-    @else if $size == tablet-portrait-up
-        @media (min-width: 600px)
-            @content
-    @else if $size == tablet-landscape-up
-        @media (min-width: 900px)
-            @content
-    @else if $size == desktop-up
-        @media (min-width: 1200px)
-            @content
-    @else if $size == big-desktop-up
-        @media (min-width: 1800px)
-            @content
+@import 'src/styles.sass'
+@import 'src/_mixins.sass'
 
 .bg
-    background-image: url('../../../../../../assets/images/background.jpg')
+    background-image: url('../../../../../../assets/images/background1.jpg')
     background-size: cover
     background-repeat: no-repeat
     background-position: center
@@ -28,30 +14,16 @@
 
 .transparency
     background: transparent
-    color: #fff
+    color: $text-color-light
 
-.header
-    font-size: 2.5rem
-    font-weight: 500
-
-    @include for-size(phone-only)
-        font-size: 1rem
-    
-    button
-        font-size: 1.5rem
-
-        @include for-size(phone-only)
-            font-size: 1rem
 
 .mat-toolbar-row, .mat-toolbar-single-row
-    padding: 1.5em
-
-    @include for-size(phone-only)
-        padding: 0.5rem
+    background: $info-color
+    color: $text-color-light
 
 .main-info
-    background: rgba(33, 150, 243, 0.5)
-    color: #fff
+    background: $info-color-alpha
+    color: $text-color-light
     border: none
     padding: 1.5em
     font-size: 1.5rem
@@ -76,7 +48,7 @@
     align-items: center
 
 .meet-button
-    color: #fff
+    color: $text-color-light
     border: none
     padding: 1em
     font-size: 1.5rem
