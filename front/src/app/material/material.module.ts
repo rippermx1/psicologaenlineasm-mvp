@@ -12,6 +12,10 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HttpClientModule } from '@angular/common/http';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import {MatIconModule} from '@angular/material/icon';
+import {MatToolbarModule} from '@angular/material/toolbar';
+
+
 
 @NgModule({
   declarations: [],
@@ -26,7 +30,9 @@ import { MatCardModule } from '@angular/material/card';
     MatCheckboxModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule
   ],
   exports: [
     MatStepperModule,
@@ -39,7 +45,9 @@ import { MatCardModule } from '@angular/material/card';
     MatCheckboxModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatToolbarModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}

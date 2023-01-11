@@ -39,7 +39,7 @@ def comfirmation(request: PacientPaymentRequest):
         'body': 'Descripción de la compra'
     }
     try:
-        user = db.get_user_by_email(request.email)[0]
+        user = db.get_user_by_email(request.email)
         print(user)
         
         if not user:
@@ -60,7 +60,7 @@ def comfirmation(request: PacientPaymentRequest):
         return {'payment_url': payment_url}
     except ConfirmationPaymentException as e:
         print(e)
-        return None
+        return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
 
 
 @app.get("/payment/confirm")
@@ -75,8 +75,9 @@ async def confirm_payment(request: Request):
 
 @app.get("/payment/error")
 async def confirm_payment(request: Request):
+    trx_id = request.query_params.get('trx_id')
     print(await request.body())
-    return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
+    return RedirectResponse(f'http://localhost:4200/schedule-meet/payment/error?trx_id={trx_id}', status_code=302)
 
 
 @app.post("/payment/status")

@@ -1,0 +1,82 @@
+@mixin for-size($size)
+    @if $size == phone-only
+        @media (max-width: 599px)
+            @content
+    @else if $size == tablet-portrait-up
+        @media (min-width: 600px)
+            @content
+    @else if $size == tablet-landscape-up
+        @media (min-width: 900px)
+            @content
+    @else if $size == desktop-up
+        @media (min-width: 1200px)
+            @content
+    @else if $size == big-desktop-up
+        @media (min-width: 1800px)
+            @content
+
+.bg
+    background-image: url('../../../../../../assets/images/background.jpg')
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center
+    height: 100vh
+    width: 100vw
+
+.example-spacer
+    flex: 1 1 auto
+
+.transparency
+    background: transparent
+    color: #fff
+
+.header
+    font-size: 2.5rem
+    font-weight: 500
+
+    @include for-size(phone-only)
+        font-size: 1rem
+    
+    button
+        font-size: 1.5rem
+
+        @include for-size(phone-only)
+            font-size: 1rem
+
+.mat-toolbar-row, .mat-toolbar-single-row
+    padding: 1.5em
+
+    @include for-size(phone-only)
+        padding: 0.5rem
+
+.main-info
+    background: rgba(33, 150, 243, 0.5)
+    color: #fff
+    border: none
+    padding: 1.5em
+    font-size: 1.5rem
+    margin: 10rem
+    border-radius: 25px
+    box-shadow: none
+    line-height: normal
+
+    @include for-size(phone-only)
+        font-size: 1rem
+        box-shadow: none
+        line-height: normal
+        border-radius: 0
+        margin: 0
+
+.meet-container
+    display: flex
+    flex-direction: row
+    flex-wrap: nowrap
+    align-content: center
+    justify-content: center
+    align-items: center
+
+.meet-button
+    color: #fff
+    border: none
+    padding: 1em
+    font-size: 1.5rem

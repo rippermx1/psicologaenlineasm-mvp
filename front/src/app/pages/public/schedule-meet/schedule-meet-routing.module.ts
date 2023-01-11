@@ -3,7 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
 import { PaymentErrorComponent } from './pages/payment-error/payment-error.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
-import { ScheduleMeetComponent } from './schedule-meet.component';
+import { ScheduleMeetComponent } from './pages/schedule-meet/schedule-meet.component';
+
 
 const routes: Routes = [
   {

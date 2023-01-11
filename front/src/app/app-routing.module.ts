@@ -15,6 +15,10 @@ const routes: Routes = [
     path: 'schedule-meet',
     loadChildren: () => import('./pages/public/schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
   },
+  {
+    path: 'home',
+    loadChildren: () => import('./pages/public/home/home.module').then(m => m.HomeModule)
+  },
   /* {
     path:'enrollment',
     loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)
@@ -23,7 +27,10 @@ const routes: Routes = [
     path:'profile',
     loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
   }, */
-
+  {
+    path: '**',
+    redirectTo: ''
+  }
 ];
 
 @NgModule({

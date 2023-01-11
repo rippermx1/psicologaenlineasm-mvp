@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { Pacient, PacientPaymentRequest } from './interfaces/pacient.interface';
-import { ScheduleMeetService } from './service/schedule-meet.service';
+import { PacientPaymentRequest } from '../../interfaces/pacient.interface';
+import { ScheduleMeetService } from '../../service/schedule-meet.service';
+
 
 @Component({
   selector: 'app-schedule-meet',
