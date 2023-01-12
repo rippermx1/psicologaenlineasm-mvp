@@ -19,6 +19,14 @@ const routes: Routes = [
     path: 'home',
     loadChildren: () => import('./pages/public/home/home.module').then(m => m.HomeModule)
   },
+  {
+    path: 'user-profile',
+    loadChildren: () => import('./pages/private/user-profile/user-profile.module').then(m => m.UserProfileModule)
+  },
+  {
+    path: 'user-dashboard',
+    loadChildren: () => import('./pages/private/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule)
+  },
   /* {
     path:'enrollment',
     loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)

@@ -9,6 +9,7 @@ import { PaymentDetails } from '../../interfaces/payment-detail.interface';
 })
 export class PaymentSuccessComponent implements OnInit {
   paymentDetails: PaymentDetails = {}
+  userProfileUrl: string = "/user-profile";
   constructor(
     private location: Location
   ) { }
@@ -18,10 +19,6 @@ export class PaymentSuccessComponent implements OnInit {
     this.paymentDetails.amount = 100;
     this.paymentDetails.date = new Date();
     this.paymentDetails.paymentMethod = 'Credit Card';
-  }
-
-  goBack() {
-    this.location.back();
   }
 
 }

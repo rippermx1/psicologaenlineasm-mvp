@@ -1,0 +1,39 @@
+<mat-toolbar>
+    <button mat-icon-button aria-label="" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <!-- <span>My App</span> -->
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="favorite-icon" aria-label="">
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="hasBackdrop">
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let link of links">
+                <mat-icon matListIcon>info</mat-icon>
+                <a matLine href="...">{{ link }}</a>
+            </mat-list-item>
+        </mat-nav-list>
+
+        <!-- <mat-list>
+            <mat-list-item *ngFor="let link of links">
+            <mat-icon matListIcon>folder</mat-icon>
+            <h3 matLine> {{link}} </h3>
+            <p matLine>
+                <span> {{link}} </span>
+                <span class="demo-2"> -- {{link }} </span>
+            </p>
+            </mat-list-item>
+        </mat-list> -->
+    </mat-drawer>
+
+    <div class="example-sidenav-content">
+        <button type="button" mat-button>
+            Toggle sidenav
+        </button>
+    </div>
+
+</mat-drawer-container>

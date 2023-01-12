@@ -1,9 +1,7 @@
-<h2>Pago Exitoso</h2>
-
-<!-- <mat-toolbar>Successful Payment</mat-toolbar> -->
+<h2>¡Pago Exitoso!</h2>
 
 <mat-card>
-    <mat-card-title>Payment Details</mat-card-title>
+    <mat-card-title>Detalle del Pago:</mat-card-title>
     <mat-card-content>
         <p>Amount: {{ paymentDetails.amount }}</p>
         <p>Date: {{ paymentDetails.date | date }}</p>
@@ -11,4 +9,4 @@
     </mat-card-content>
 </mat-card>
 
-<button mat-raised-button (click)="goBack()">Go Back</button>
+<button mat-raised-button [routerLink]="userProfileUrl">Ir a mi Perfil</button>
