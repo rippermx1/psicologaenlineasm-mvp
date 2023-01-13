@@ -24,8 +24,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/private/user-profile/user-profile.module').then(m => m.UserProfileModule)
   },
   {
-    path: 'user-dashboard',
-    loadChildren: () => import('./pages/private/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule)
+    path: 'specialist-dashboard',
+    loadChildren: () => import('./pages/private/specialist-dashboard/specialist-dashboard.module').then(m => m.SpecialistDashboardModule)
   },
   /* {
     path:'enrollment',
