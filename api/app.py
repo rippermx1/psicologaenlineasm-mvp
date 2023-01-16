@@ -4,9 +4,10 @@ from fastapi.responses import RedirectResponse
 from fastapi import Request
 from models import PacientPaymentRequest, PaymentTrxId
 from payment import KhipuPayment
-from exceptions import ConfirmationPaymentException
+from exceptions import ConfirmationPaymentException, SpecialistException
 from uuid import uuid4
 from firebase import FirebaseAuth, FirebaseDatabase
+from datetime import datetime
 
 
 payment = KhipuPayment()
@@ -93,4 +94,24 @@ async def payment_status(request: PaymentTrxId):
         else:
             return {'status': 'pending', 'status_detail': 'pending'}
     except ConfirmationPaymentException as e:
+        pass
+
+
+# Specialist Endpoints
+@app.post("/specialist/available-hours") 
+async def get_available_hours(request: Request):
+    date = await request.json()
+    date = datetime.strptime(date['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
+
+    print(date.date())
+    
+    try:
+        return [
+            '10:00 AM',
+            '10:30 AM',
+            '11:00 AM',
+            '11:30 AM',
+            '12:00 PM',
+        ]
+    except SpecialistException as e:
         pass

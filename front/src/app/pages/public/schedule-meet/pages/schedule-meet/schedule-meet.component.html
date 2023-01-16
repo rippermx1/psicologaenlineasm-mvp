@@ -4,6 +4,11 @@
         <ng-template matStepContent>
             <form [formGroup]="firstFormGroup">
                 <mat-form-field>
+                    <mat-label>Rut</mat-label>
+                    <input matInput type="text" formControlName="rut">
+                </mat-form-field>
+                <br>
+                <mat-form-field>
                     <mat-label>Nombre</mat-label>
                     <input matInput formControlName="firstName">
                 </mat-form-field>
@@ -37,14 +42,12 @@
         <ng-template matStepLabel>Agendar Cita</ng-template>
         <ng-template matStepContent>
         <form [formGroup]="secondFormGroup">
-            <mat-calendar [(selected)]="selected"></mat-calendar>
+            <mat-calendar [(selected)]="selectedDate" (selectedChange)="selectDate($event)"></mat-calendar>
             <br>
-            <mat-label>Horas Disponibles para {{selected | date}}</mat-label>
-            <mat-chip-list aria-label="Fish selection">
-                <mat-chip>09:00 AM</mat-chip>
-                <mat-chip>10:00 AM</mat-chip>
-                <mat-chip color="primary" selected>15:00 AM</mat-chip>
-                <mat-chip>18:00 AM</mat-chip>
+            <mat-label>Horas Disponibles para {{selectedDate | date}}</mat-label>
+            <mat-chip-list aria-label="Hour Selection">
+                <mat-chip *ngFor="let hour of availableHours$ | async">{{hour}}</mat-chip>
+                <!-- <mat-chip color="primary" selected>15:00 AM</mat-chip> -->                
             </mat-chip-list>
             <br>
             <button mat-button matStepperPrevious>Volver</button>
@@ -56,14 +59,15 @@
         <ng-template matStepLabel>Resumen</ng-template>
         <ng-template matStepContent>
             <form [formGroup]="thirdFormGroup">
-                <mat-checkbox formControlName="termsControl" required>Acepto los <a>T&eacute;rminos y Condiciones</a></mat-checkbox>
+                <p></p>
+                <br>
+
+                <mat-checkbox formControlName="termsControl" required>Acepto los <a href="#">T&eacute;rminos y Condiciones</a></mat-checkbox>
                 <mat-error *ngIf="thirdFormGroup.controls['termsControl'].invalid">{{getErrorMessage()}}</mat-error>
                 <br>
-                <mat-form-field>
-                    <mat-label>Rut</mat-label>
-                    <input matInput type="text" formControlName="rut">
-                </mat-form-field>
-                <br>            
+                
+                <p>El valor de la sesión es de: <b>$14.990</b></p>
+                <br>
                 <button mat-button (click)="createPayment()">Pagar</button>
             </form>
         </ng-template>

@@ -3,3 +3,7 @@ export const payment = {
     confirmation: '/payment/confirm',
     status: '/payment/status'
 }
+
+export const specialist = {
+    availableHours: '/specialist/available-hours',
+}

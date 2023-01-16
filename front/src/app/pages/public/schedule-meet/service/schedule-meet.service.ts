@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { payment } from '../endpoints/schedule-meet.endpoints';
+import { payment, specialist } from '../endpoints/schedule-meet.endpoints';
 import { environment } from 'src/environments/environment';
 import { PacientPaymentRequest } from '../interfaces/pacient.interface';
 import { PaymentUrlResponse } from '../interfaces/payment-url-response.interface';
@@ -33,5 +33,10 @@ export class ScheduleMeetService {
       skipWhile((response) => response.status !== 'done'),
       take(1),
     );
+  }
+
+  getAvailableHours(date: Date): Observable<string[]> {
+    const endpoint = `${environment.api_url}${specialist.availableHours}`;
+    return this.http.post<string[]>(endpoint, { date });
   }
 }
