@@ -27,6 +27,10 @@ const routes: Routes = [
     path: 'user-dashboard',
     loadChildren: () => import('./pages/private/user-dashboard/user-dashboard.module').then(m => m.UserDashboardModule)
   },
+  {
+    path: 'meet-room',
+    loadChildren: () => import('./pages/private/meet-room/meet-room.module').then(m => m.MeetRoomModule)
+  },
   /* {
     path:'enrollment',
     loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)
