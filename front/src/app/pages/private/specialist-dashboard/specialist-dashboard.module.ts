@@ -2,12 +2,19 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { SpecialistDashboardRoutingModule } from './specialist-dashboard-routing.module';
+import { SpecialistDashboardComponent } from './specialist-dashboard.component';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { ScheduleComponent } from './pages/schedule/schedule.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    SpecialistDashboardComponent,
+    ScheduleComponent
+  ],
   imports: [
     CommonModule,
+    SharedModule,
     SpecialistDashboardRoutingModule
   ]
 })

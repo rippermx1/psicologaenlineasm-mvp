@@ -1,0 +1,28 @@
+<mat-toolbar>
+    <button mat-icon-button aria-label="" (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <!-- <span>My App</span> -->
+    <span class="example-spacer"></span>
+    <button mat-icon-button class="favorite-icon" aria-label="">
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="true">
+    <mat-drawer #drawer class="example-sidenav" mode="side">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let link of ['schedule']">
+                <mat-icon matListIcon>info</mat-icon>
+                <a matLine (click)="loadComponent(link)">{{ link }}</a>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <ng-template #template>
+        <mat-drawer-content>
+            <app-schedule></app-schedule>
+        </mat-drawer-content>
+    </ng-template>
+
+</mat-drawer-container>
