@@ -5,12 +5,14 @@ import { SpecialistDashboardRoutingModule } from './specialist-dashboard-routing
 import { SpecialistDashboardComponent } from './specialist-dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
+import { MeetsComponent } from './pages/meets/meets.component';
 
 
 @NgModule({
   declarations: [
     SpecialistDashboardComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    MeetsComponent
   ],
   imports: [
     CommonModule,

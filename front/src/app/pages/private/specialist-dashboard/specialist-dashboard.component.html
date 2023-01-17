@@ -9,19 +9,25 @@
     </button>
 </mat-toolbar>
 
-<mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="true">
+<mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="false">
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
-            <mat-list-item *ngFor="let link of ['schedule']">
+            <mat-list-item *ngFor="let i of items">
                 <mat-icon matListIcon>info</mat-icon>
-                <a matLine (click)="loadComponent(link)">{{ link }}</a>
+                <a matLine (click)="loadComponent(i.id)">{{ i.name }}</a>
             </mat-list-item>
         </mat-nav-list>
     </mat-drawer>
 
-    <ng-template #template>
+    <ng-template #schedule>
         <mat-drawer-content>
             <app-schedule></app-schedule>
+        </mat-drawer-content>
+    </ng-template>
+
+    <ng-template #meets>
+        <mat-drawer-content>
+            <app-meets></app-meets>
         </mat-drawer-content>
     </ng-template>
 
