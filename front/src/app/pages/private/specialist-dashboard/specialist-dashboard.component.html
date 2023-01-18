@@ -2,8 +2,7 @@
     <button mat-icon-button aria-label="" (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
     </button>
-    <!-- <span>My App</span> -->
-    <span class="example-spacer"></span>
+    <img src="assets/svg/logo.svg" alt="" class="logo">
     <button mat-icon-button class="favorite-icon" aria-label="">
         <mat-icon>logout</mat-icon>
     </button>
@@ -18,16 +17,32 @@
             </mat-list-item>
         </mat-nav-list>
     </mat-drawer>
-
+    
+    <!--Agenda-->
     <ng-template #schedule>
-        <mat-drawer-content>
+        <mat-drawer-content class="padding-base">
             <app-schedule></app-schedule>
         </mat-drawer-content>
     </ng-template>
 
+    <!--Citas-->
     <ng-template #meets>
-        <mat-drawer-content>
+        <mat-drawer-content class="padding-base">
             <app-meets></app-meets>
+        </mat-drawer-content>
+    </ng-template>
+
+    <!--Pacientes-->
+    <ng-template #pacients>
+        <mat-drawer-content class="padding-base">
+            <app-pacients></app-pacients>
+        </mat-drawer-content>
+    </ng-template>
+
+    <!--Boletas-->
+    <ng-template #dte>
+        <mat-drawer-content class="padding-base">
+            <app-dte></app-dte>
         </mat-drawer-content>
     </ng-template>
 
