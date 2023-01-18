@@ -31,4 +31,18 @@ mat-chip {
     align-items: center;
     width: 100%;
     margin: 5px;
+    padding: 5px;
+
+    p {
+        margin: 0;
+    }
+}
+
+.bussy-hour {
+    text-decoration: line-through;
+}
+
+.scheduled-hour {
+    background: #f2f2f2;
+    border-radius: 10px;
 }

@@ -12,7 +12,7 @@
     <mat-drawer #drawer class="example-sidenav" mode="side">
         <mat-nav-list>
             <mat-list-item *ngFor="let i of items">
-                <mat-icon matListIcon>info</mat-icon>
+                <mat-icon matListIcon>{{i.icon}}</mat-icon>
                 <a matLine (click)="loadComponent(i.id)">{{ i.name }}</a>
             </mat-list-item>
         </mat-nav-list>

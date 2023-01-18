@@ -1,25 +1,24 @@
 <h2 class="title">{{title}}</h2>
 
 <mat-accordion class="example-headers-align" multi>
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngFor="let s of schedule">
         <mat-expansion-panel-header>
-            <mat-panel-title>Hoy</mat-panel-title>
-            <mat-panel-description>(Miercoles)<mat-icon>date_range</mat-icon></mat-panel-description>
+            <mat-panel-title>{{s.label}}</mat-panel-title>
+            <mat-panel-description>({{s.day}})<mat-icon>date_range</mat-icon></mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div *ngFor="let hour of availableHours" class="hours-container">
+        <div *ngFor="let hour of s.hours" [ngClass]="{'hours-container': hour.active, 'bussy-hour': hour.status == bussy, 'scheduled-hour': hour.status == scheduled}">
             <mat-chip-list aria-label="Seleccion de horas">
-                <mat-chip [selected]="hour.selected" class="">{{hour.value}}</mat-chip>
+                <mat-chip [selected]="hour.status == scheduled" class="">{{hour.value}}</mat-chip>
             </mat-chip-list>
-            <p>Disponible</p>
-            
+            <p [ngSwitch]="hour.status">
+                <span *ngSwitchCase="available">{{available}}</span>
+                <span *ngSwitchCase="bussy">{{bussy}}</span>
+                <span *ngSwitchCase="scheduled" (click)="showDetail(hour)">{{scheduled}}</span>
+                <span *ngSwitchDefault>-</span>
+            </p>
+            <mat-slide-toggle [checked]="hour.status == available" [disabled]="hour.status == scheduled"></mat-slide-toggle>
         </div>
     </mat-expansion-panel>
 </mat-accordion>
 
-
-<!-- <mat-form-field appearance="fill">
-            <mat-label>Date</mat-label>
-            <input matInput [matDatepicker]="picker" (focus)="picker.open()" readonly>
-        </mat-form-field>
-        <mat-datepicker #picker></mat-datepicker> -->
