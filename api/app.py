@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from fastapi import Request
 from models import PacientPaymentRequest, PaymentTrxId
 from payment import KhipuPayment
-from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException
+from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException, GetSpecialistScheduleException
 from uuid import uuid4
 from firebase import FirebaseAuth, FirebaseDatabase
 from datetime import datetime
@@ -98,7 +98,7 @@ async def payment_status(request: PaymentTrxId):
 
 
 # Specialist Endpoints
-@app.post("/specialist/available-hours") 
+@app.post("/specialist/available-hours")
 async def get_available_hours(request: Request):
     date = await request.json()
     date = datetime.strptime(date['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -117,13 +117,23 @@ async def get_available_hours(request: Request):
         pass
 
 
+''' Get the schedule by a given specialist UUID '''
+@app.get("/schedule/specialist/")
+async def get_specialist_schedule(uuid: str, date: str):
+    try:
+        return db.get_specialist_schedule(uuid, date)
+    except GetSpecialistScheduleException as e:
+        pass
+
+
 # Admin Settings Endpoints
 @app.get("/schedule/days/default")
 async def set_default_schedule_days():  
     try:
-        db.set_default_schedule_days()
+        uuid = db.set_default_schedule_days()
         return {
-            'status': 'success'
+            'status': 'success',
+            'uuid': uuid
         }
     except SetDefaultScheduleDaysException as e:
         pass

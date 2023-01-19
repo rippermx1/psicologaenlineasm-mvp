@@ -1,0 +1,1 @@
+export const SPECIALIST_SCHEDULE = '/schedule/specialist/';

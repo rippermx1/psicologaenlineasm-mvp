@@ -1,10 +1,11 @@
 <h2 class="title">{{title}}</h2>
 
+<!--Mobile-->
 <mat-accordion class="example-headers-align" multi>
     <mat-expansion-panel *ngFor="let s of schedule">
         <mat-expansion-panel-header>
-            <mat-panel-title>{{s.label}}</mat-panel-title>
-            <mat-panel-description>({{s.day}})<mat-icon>date_range</mat-icon></mat-panel-description>
+            <mat-panel-title>{{s.day}}</mat-panel-title>
+            <!-- <mat-panel-description>({{s.day}})<mat-icon>date_range</mat-icon></mat-panel-description> -->
         </mat-expansion-panel-header>
 
         <div *ngFor="let hour of s.hours" [ngClass]="{'hours-container': hour.active, 'bussy-hour': hour.status == bussy, 'scheduled-hour': hour.status == scheduled}">

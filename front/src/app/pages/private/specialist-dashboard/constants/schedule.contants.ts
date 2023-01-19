@@ -1,3 +1,3 @@
-export const AVAILABLE = 'Disponible';
-export const BUSSY = 'Ocupado';
-export const SCHEDULED = 'Agendado';
+export const AVAILABLE = 'DISPONIBLE';
+export const BUSSY = 'OCUPADO';
+export const SCHEDULED = 'AGENDADO';

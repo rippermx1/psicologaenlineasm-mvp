@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AVAILABLE, BUSSY, SCHEDULED } from '../../constants/schedule.contants';
+import { ScheduleService } from '../../service/schedule.service';
 
 @Component({
   selector: 'app-schedule',
@@ -8,160 +9,37 @@ import { AVAILABLE, BUSSY, SCHEDULED } from '../../constants/schedule.contants';
 })
 export class ScheduleComponent implements OnInit {
   title: string = 'Agenda';
+  currentDate: string = '';
   schedule: Schedule[] = [
     {
       date: new Date(),
-      label: 'Hoy',
-      day: 'Miercoles',
-      hours: [
-        {
-          time: '09:00',
-          value: '09:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '10:00',
-          value: '10:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '11:00',
-          value: '11:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '12:00',
-          value: '12:00 PM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '13:00',
-          value: '13:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '14:00',
-          value: '14:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '15:00',
-          value: '15:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '16:00',
-          value: '16:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '17:00',
-          value: '17:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '18:00',
-          value: '18:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-      ],
+      day: 'Lunes',
+      hours: []
     },
     {
       date: new Date(),
-      label: 'Mañana',
+      day: 'Martes',
+      hours: []
+    },
+    {
+      date: new Date(),
+      day: 'Miércoles',
+      hours: []
+    },
+    {
+      date: new Date(),
       day: 'Jueves',
-      hours: [
-        {
-          time: '09:00',
-          value: '09:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '10:00',
-          value: '10:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '11:00',
-          value: '11:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '12:00',
-          value: '12:00 PM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '13:00',
-          value: '13:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '14:00',
-          value: '14:00 AM',
-          selected: false,
-          status: AVAILABLE,
-          active: true,
-        },
-        {
-          time: '15:00',
-          value: '15:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '16:00',
-          value: '16:00 AM',
-          selected: false,
-          status: SCHEDULED,
-          active: true,
-        },
-        {
-          time: '17:00',
-          value: '17:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-        {
-          time: '18:00',
-          value: '18:00 AM',
-          selected: false,
-          status: BUSSY,
-          active: true,
-        },
-      ],
+      hours: []
+    },
+    {
+      date: new Date(),
+      day: 'Viernes',
+      hours: []
+    },
+    {
+      date: new Date(),
+      day: 'Sabado',
+      hours: []
     },
   ];
 
@@ -169,9 +47,19 @@ export class ScheduleComponent implements OnInit {
   bussy: string = BUSSY;
   scheduled: string = SCHEDULED;
 
-  constructor() {}
+  constructor(
+    private service: ScheduleService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.currentDate = this.service.getDate();
+
+    this.service.getSpecialistSchedule("25d62323-ed9b-4287-87b9-7a592523110f", this.currentDate).subscribe(
+      (response) => {
+        console.log(response);
+      }
+    )
+  }
 
   showDetail(hour: Hour) {
     
@@ -180,7 +68,6 @@ export class ScheduleComponent implements OnInit {
 
 export interface Schedule {
   date: Date;
-  label: string;
   day: string;
   hours: Hour[];
 }
