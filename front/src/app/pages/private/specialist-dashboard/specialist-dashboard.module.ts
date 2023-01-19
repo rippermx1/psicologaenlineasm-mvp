@@ -8,6 +8,8 @@ import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { MeetsComponent } from './pages/meets/meets.component';
 import { PacientsComponent } from './pages/pacients/pacients.component';
 import { DteComponent } from './pages/dte/dte.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { DteComponent } from './pages/dte/dte.component';
     ScheduleComponent,
     MeetsComponent,
     PacientsComponent,
-    DteComponent
+    DteComponent,
+    ProfileComponent,
+    SettingsComponent
   ],
   imports: [
     CommonModule,

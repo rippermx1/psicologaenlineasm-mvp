@@ -4,7 +4,7 @@ from fastapi.responses import RedirectResponse
 from fastapi import Request
 from models import PacientPaymentRequest, PaymentTrxId
 from payment import KhipuPayment
-from exceptions import ConfirmationPaymentException, SpecialistException
+from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException
 from uuid import uuid4
 from firebase import FirebaseAuth, FirebaseDatabase
 from datetime import datetime
@@ -114,4 +114,16 @@ async def get_available_hours(request: Request):
             '12:00 PM',
         ]
     except SpecialistException as e:
+        pass
+
+
+# Admin Settings Endpoints
+@app.get("/schedule/days/default")
+async def set_default_schedule_days():  
+    try:
+        db.set_default_schedule_days()
+        return {
+            'status': 'success'
+        }
+    except SetDefaultScheduleDaysException as e:
         pass

@@ -2,8 +2,8 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 from firebase_admin import auth
-import json
-
+from uuid import uuid4
+from datetime import datetime
 
 app = firebase_admin.initialize_app(credentials.Certificate("./psicologaenlineasm-firebase.json"))
 
@@ -49,6 +49,59 @@ class FirebaseDatabase:
         self.ref = self.db.collection(u'users')
         query = self.ref.where("email", "==", email)
         return [doc.to_dict() for doc in query.stream()] if query else None
+
+
+    def set_default_schedule_days(self,):
+        uuid = str(uuid4())
+        self.ref = self.db.collection(u'specialists').document(uuid)
+        self.ref.set({
+            "first_name": "Admin",
+            "last_name": "Admin",
+            "email": "admin@admin.cl",
+            "phone_number": "56912345678",
+            "password": "admin",
+            "is_admin": True,
+            "is_specialist": True,
+            "is_client": False,
+            "is_active": True,
+            "is_verified": True,
+            "is_available": True,
+            "is_online": False,
+            "is_busy": False,
+            "address": "Av. Siempre Viva 742",
+            "city": "Santiago",
+            "country": "Chile",
+            "postal_code": "123456",
+            "specialty": "Psicología",
+            "sub_specialty": "Psicología Clínica",
+            "bio": "",
+            "photo_url": "",
+            "price": 10000,
+            "currency": "CLP",
+            "uuid": uuid,
+            "created_at": datetime.now(),
+            "updated_at": datetime.now(),
+            "schedule": []
+        })
+        schedule = []
+        for i in range(1, 365):
+            schedule.append({
+                "day_of_year": i,
+                "first_block": { "label": '09:00', "is_available": True },
+                "second_block": { "label": '09:00', "is_available": True },
+                "third_block": { "label": '09:00', "is_available": True },
+                "fourth_block": { "label": '09:00', "is_available": True },
+                "fifth_block": { "label": '09:00', "is_available": True },
+                "sixth_block": { "label": '09:00', "is_available": True },
+                "seventh_block": { "label": '09:00', "is_available": True },
+                "eighth_block": { "label": '09:00', "is_available": True },
+                "ninth_block": { "label": '09:00', "is_available": True },
+                "tenth_block": { "label": '09:00', "is_available": True },
+                "eleventh_block": { "label": '09:00', "is_available": True }, 
+                "twelfth_block": { "label": '09:00', "is_available": True },
+            })
+        self.ref.update({"schedule": schedule})
+        
 
 class FirebaseAuth:
     def create_user(self, email, password):

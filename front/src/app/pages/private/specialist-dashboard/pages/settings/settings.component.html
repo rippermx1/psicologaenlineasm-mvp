@@ -1,0 +1,6 @@
+<h2>Configuracion Agenda</h2>
+<mat-grid-list cols="3" rowHeight="50px">
+    <mat-grid-tile *ngFor="let button of buttons">
+        <button mat-raised-button (click)="handleClick(button)">{{ button.name }}</button>
+    </mat-grid-tile>
+</mat-grid-list>
