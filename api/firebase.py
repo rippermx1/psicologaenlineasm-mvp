@@ -4,6 +4,7 @@ from firebase_admin import firestore
 from firebase_admin import auth
 from uuid import uuid4
 from datetime import datetime, date
+from utils import default_blocks
 
 app = firebase_admin.initialize_app(credentials.Certificate("./psicologaenlineasm-firebase.json"))
 
@@ -56,10 +57,29 @@ class FirebaseDatabase:
         print('get_specialist_schedule', date)
         try:
             self.ref = self.db.collection(u'schedules') #.document(uuid)
-            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).where("date", "==", date).stream()]
+            # .where("date", "==", date)
+            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).stream()]
         except Exception as e:
             print(e)
             return [] # TODO: Control this exception with a class that return [{'msg': 'User not exist'}]
+
+
+    def set_specialist_schedule_block(self, specialist_uuid: str, date: str):
+        print('set_specialist_schedule_block', specialist_uuid)
+        print('set_specialist_schedule_block', date)
+        uuid = str(uuid4())
+        try:
+            self.ref = self.db.collection(u'schedules').document(uuid)
+            self.ref.set({
+                "uuid": uuid,
+                "specialist_uuid": specialist_uuid,
+                "date": date,
+                "blocks": default_blocks
+            })
+            return self.ref.get().to_dict()
+        except Exception as e:
+            print(e)
+            return [] # TODO: Control this exception with a class that return
 
 
     ''' Use only for URGENCY.  Specialist can't be restored'''
@@ -106,20 +126,7 @@ class FirebaseDatabase:
             "uuid": schedule_uuid,
             "specialist_uuid": specialist_uuid,
             "date": date.today().strftime("%Y-%m-%d"),
-            "blocks": [
-                { "id": 1, "time": "09:00", "value": "09:00 AM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 2, "time": "10:00", "value": "10:00 AM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 3, "time": "11:00", "value": "11:00 AM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 4, "time": "12:00", "value": "12:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 5, "time": "13:00", "value": "13:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 6, "time": "14:00", "value": "14:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 7, "time": "15:00", "value": "15:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 8, "time": "16:00", "value": "16:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 9, "time": "17:00", "value": "17:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 10, "time": "18:00", "value": "18:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 11, "time": "19:00", "value": "19:00 PM", "selected": False, "status": "DISPONIBLE", "active": True },
-                { "id": 12, "time": "20:00", "value": "20:00 PM", "selected": False, "status": "DISPONIBLE", "active": True }
-            ]
+            "blocks": default_blocks
         })
 
         return specialist_uuid

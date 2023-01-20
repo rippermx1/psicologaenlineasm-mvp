@@ -8,6 +8,10 @@ class PacientPaymentRequest(BaseModel):
     age: str    
 
 
+class BlockCreateRequest(BaseModel):
+    uuid: str
+    date: str
+
 class PaymentTrxId(BaseModel):
     trx_id: str
 

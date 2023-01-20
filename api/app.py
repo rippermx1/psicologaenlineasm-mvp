@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi import Request
-from models import PacientPaymentRequest, PaymentTrxId
+from models import PacientPaymentRequest, PaymentTrxId, BlockCreateRequest
 from payment import KhipuPayment
 from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException, GetSpecialistScheduleException
 from uuid import uuid4
@@ -98,32 +98,23 @@ async def payment_status(request: PaymentTrxId):
 
 
 # Specialist Endpoints
-@app.post("/specialist/available-hours")
-async def get_available_hours(request: Request):
-    date = await request.json()
-    date = datetime.strptime(date['date'], "%Y-%m-%dT%H:%M:%S.%fZ")
-
-    print(date.date())
-    
-    try:
-        return [
-            '10:00 AM',
-            '10:30 AM',
-            '11:00 AM',
-            '11:30 AM',
-            '12:00 PM',
-        ]
-    except SpecialistException as e:
-        pass
-
-
-''' Get the schedule by a given specialist UUID '''
 @app.get("/schedule/specialist/")
 async def get_specialist_schedule(uuid: str, date: str):
+    ''' Get the schedule by a given specialist UUID '''
     try:
-        return db.get_specialist_schedule(uuid, date)
+        return {'status': 'success', 'schedule': db.get_specialist_schedule(uuid, date)}
     except GetSpecialistScheduleException as e:
-        pass
+        return {'status': 'error', 'status_detail': 'pending'}
+
+
+@app.post("/schedule/specialist/block/create")
+async def set_specialist_schedule_block(request: BlockCreateRequest):
+    ''' Create the schedule block by default for a specific specialist by a given UUID and Date '''
+    print(request)
+    try:
+        return {'status': 'success', 'schedule': db.set_specialist_schedule_block(request.uuid, request.date)}
+    except GetSpecialistScheduleException as e:
+        return {'status': 'error', 'status_detail': 'error'}
 
 
 # Admin Settings Endpoints

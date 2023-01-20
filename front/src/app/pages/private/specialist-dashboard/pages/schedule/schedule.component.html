@@ -2,24 +2,31 @@
 
 <!--Mobile-->
 <mat-accordion class="example-headers-align" multi>
-    <mat-expansion-panel *ngFor="let s of schedule">
+    <mat-expansion-panel *ngFor="let s of schedule" [disabled]="!s.blocks.length && !s.expand">
         <mat-expansion-panel-header>
             <mat-panel-title>{{s.day}}</mat-panel-title>
-            <!-- <mat-panel-description>({{s.day}})<mat-icon>date_range</mat-icon></mat-panel-description> -->
+            <mat-panel-description>({{s.date | date}})<mat-icon>date_range</mat-icon></mat-panel-description>
         </mat-expansion-panel-header>
 
-        <div *ngFor="let hour of s.hours" [ngClass]="{'hours-container': hour.active, 'bussy-hour': hour.status == bussy, 'scheduled-hour': hour.status == scheduled}">
-            <mat-chip-list aria-label="Seleccion de horas">
-                <mat-chip [selected]="hour.status == scheduled" class="">{{hour.value}}</mat-chip>
-            </mat-chip-list>
-            <p [ngSwitch]="hour.status">
-                <span *ngSwitchCase="available">{{available}}</span>
-                <span *ngSwitchCase="bussy">{{bussy}}</span>
-                <span *ngSwitchCase="scheduled" (click)="showDetail(hour)">{{scheduled}}</span>
-                <span *ngSwitchDefault>-</span>
-            </p>
-            <mat-slide-toggle [checked]="hour.status == available" [disabled]="hour.status == scheduled"></mat-slide-toggle>
+        <div *ngIf="s.blocks.length; else emptyBlocks">
+            <div *ngFor="let hour of s.blocks" [ngClass]="{'hours-container': hour.active, 'bussy-hour': hour.status == bussy, 'scheduled-hour': hour.status == scheduled}">
+                <mat-chip-list aria-label="Seleccion de horas">
+                    <mat-chip [selected]="hour.status == scheduled" class="">{{hour.value}}</mat-chip>
+                </mat-chip-list>
+                <p [ngSwitch]="hour.status">
+                    <span *ngSwitchCase="available">{{available}}</span>
+                    <span *ngSwitchCase="bussy">{{bussy}}</span>
+                    <span *ngSwitchCase="scheduled" (click)="showDetail(hour)">{{scheduled}}</span>
+                    <span *ngSwitchDefault>-</span>
+                </p>
+                <mat-slide-toggle [checked]="hour.status == available" [disabled]="hour.status == scheduled"></mat-slide-toggle>
+            </div>
         </div>
+        <ng-template #emptyBlocks>
+            <p>Aún no hay horas creadas. Si quieres crear un nuevo bloque de horas por defecto has click en el botón.</p>
+            <button mat-raised-button color="primary" (click)="createBlock(s)">Crear bloque de horas</button>
+        </ng-template>
+
     </mat-expansion-panel>
 </mat-accordion>
 

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AVAILABLE, BUSSY, SCHEDULED } from '../../constants/schedule.contants';
+import { Block } from '../../interfaces/schedule-response.interface';
+import { Schedule } from '../../interfaces/schedule.interface';
 import { ScheduleService } from '../../service/schedule.service';
 
 @Component({
@@ -10,39 +12,9 @@ import { ScheduleService } from '../../service/schedule.service';
 export class ScheduleComponent implements OnInit {
   title: string = 'Agenda';
   currentDate: string = '';
-  schedule: Schedule[] = [
-    {
-      date: new Date(),
-      day: 'Lunes',
-      hours: []
-    },
-    {
-      date: new Date(),
-      day: 'Martes',
-      hours: []
-    },
-    {
-      date: new Date(),
-      day: 'Miércoles',
-      hours: []
-    },
-    {
-      date: new Date(),
-      day: 'Jueves',
-      hours: []
-    },
-    {
-      date: new Date(),
-      day: 'Viernes',
-      hours: []
-    },
-    {
-      date: new Date(),
-      day: 'Sabado',
-      hours: []
-    },
-  ];
-
+  currentDayOfWeekName: string = '';
+  schedule: Schedule[] = [];
+  
   available: string = AVAILABLE;
   bussy: string = BUSSY;
   scheduled: string = SCHEDULED;
@@ -53,28 +25,47 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = this.service.getDate();
+    // this.currentDayOfWeekName = this.service.getDayOfWeekName(new Date().getDay());
+    this.schedule = this.service.getSchedule();
+    console.log(this.schedule)
 
     this.service.getSpecialistSchedule("25d62323-ed9b-4287-87b9-7a592523110f", this.currentDate).subscribe(
       (response) => {
-        console.log(response);
+        this.schedule.forEach((s, index) => {
+          console.log(s.date.toISOString().slice(0, 10))
+          response.schedule.forEach((x) => {
+            if (s.date.toISOString().slice(0, 10) == x.date) s.blocks = x.blocks;
+          })
+          s.expand = (s.date >= new Date()) ?  true : false;
+          s.specialist_uuid = response.schedule[0].specialist_uuid; // TODO: Need to be set in session
+          console.log(s)
+        });
       }
     )
   }
 
-  showDetail(hour: Hour) {
+  showDetail(block: Block) {
     
   }
-}
 
-export interface Schedule {
-  date: Date;
-  day: string;
-  hours: Hour[];
-}
-export interface Hour {
-  time: string;
-  value: string;
-  selected: boolean;
-  status: string;
-  active: true;
+  createBlock(schedule: Schedule) {
+    this.service.setSpecilistScheduleBlocks(schedule.specialist_uuid!, schedule.date.toISOString().slice(0, 10)).subscribe(
+      (response) => {
+        console.log(response.schedule);
+        this.service.getSpecialistSchedule(schedule.specialist_uuid!, this.currentDate).subscribe(
+          (response) => {
+            this.schedule.forEach((s, index) => {
+              console.log(s.date.toISOString().slice(0, 10))
+              response.schedule.forEach((x) => {
+                if (s.date.toISOString().slice(0, 10) == x.date) s.blocks = x.blocks;
+              })
+              s.expand = (s.date >= new Date()) ?  true : false;
+              s.specialist_uuid = response.schedule[0].specialist_uuid; // TODO: Need to be set in session
+              console.log(s)
+            });
+          }
+        )
+      }
+    )
+  }
 }
