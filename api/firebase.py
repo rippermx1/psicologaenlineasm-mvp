@@ -4,7 +4,7 @@ from firebase_admin import firestore
 from firebase_admin import auth
 from uuid import uuid4
 from datetime import datetime, date
-from utils import default_blocks
+from utils import BLOCK_0, BLOCK_1, BLOCK_2, BLOCK_3, BLOCK_4, BLOCK_5, BLOCK_6, BLOCK_7, BLOCK_8, BLOCK_9, BLOCK_10, BLOCK_11
 
 app = firebase_admin.initialize_app(credentials.Certificate("./psicologaenlineasm-firebase.json"))
 
@@ -74,12 +74,39 @@ class FirebaseDatabase:
                 "uuid": uuid,
                 "specialist_uuid": specialist_uuid,
                 "date": date,
-                "blocks": default_blocks
+                "block_0": BLOCK_0,
+                "block_1": BLOCK_1,
+                "block_2": BLOCK_2,
+                "block_3": BLOCK_3,
+                "block_4": BLOCK_4,
+                "block_5": BLOCK_5,
+                "block_6": BLOCK_6,
+                "block_7": BLOCK_7,
+                "block_8": BLOCK_8,
+                "block_9": BLOCK_9,
+                "block_10": BLOCK_10,
+                "block_11": BLOCK_11
             })
             return self.ref.get().to_dict()
         except Exception as e:
             print(e)
             return [] # TODO: Control this exception with a class that return
+
+
+    def update_specialist_schedule_block(self, uuid: str, block_id: str, status: str):
+        print('update_specialist_schedule_block', uuid)
+        print('update_specialist_schedule_block', block_id)
+        print('update_specialist_schedule_block', status)
+        try:
+            self.ref = self.db.collection(u'schedules').document(uuid)
+            """ block = self.ref.get().to_dict()['block_{}'.format(block_id)]
+            block['status'] = status
+            self.ref.set({'block_{}'.format(block_id): block}) """
+            #return self.ref.update({'block_{}.status'.format(block_id): status})    
+            return self.ref.update({f'block_{block_id}.status': status})        
+        except Exception as e:
+            print(e)
+            return []
 
 
     ''' Use only for URGENCY.  Specialist can't be restored'''
@@ -126,7 +153,18 @@ class FirebaseDatabase:
             "uuid": schedule_uuid,
             "specialist_uuid": specialist_uuid,
             "date": date.today().strftime("%Y-%m-%d"),
-            "blocks": default_blocks
+            "block_0": BLOCK_0,
+            "block_1": BLOCK_1,
+            "block_2": BLOCK_2,
+            "block_3": BLOCK_3,
+            "block_4": BLOCK_4,
+            "block_5": BLOCK_5,
+            "block_6": BLOCK_6,
+            "block_7": BLOCK_7,
+            "block_8": BLOCK_8,
+            "block_9": BLOCK_9,
+            "block_10": BLOCK_10,
+            "block_11": BLOCK_11
         })
 
         return specialist_uuid

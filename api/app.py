@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi import Request
-from models import PacientPaymentRequest, PaymentTrxId, BlockCreateRequest
+from models import PacientPaymentRequest, PaymentTrxId, BlockCreateRequest, BlockUpdateRequest
 from payment import KhipuPayment
 from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException, GetSpecialistScheduleException
 from uuid import uuid4
@@ -113,6 +113,15 @@ async def set_specialist_schedule_block(request: BlockCreateRequest):
     print(request)
     try:
         return {'status': 'success', 'schedule': db.set_specialist_schedule_block(request.uuid, request.date)}
+    except GetSpecialistScheduleException as e:
+        return {'status': 'error', 'status_detail': 'error'}
+
+
+@app.post("/schedule/specialist/block/update")
+async def update_specialist_schedule_block(request: BlockUpdateRequest):
+    ''' Update the schedule block for a specific specialist by a given schedule_uuid and block_id '''
+    try:
+        return {'status': 'success', 'schedule': db.update_specialist_schedule_block(request.schedule_uuid, request.block_id, request.status)}
     except GetSpecialistScheduleException as e:
         return {'status': 'error', 'status_detail': 'error'}
 

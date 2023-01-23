@@ -9,17 +9,17 @@
         </mat-expansion-panel-header>
 
         <div *ngIf="s.blocks.length; else emptyBlocks">
-            <div *ngFor="let hour of s.blocks" [ngClass]="{'hours-container': hour.active, 'bussy-hour': hour.status == bussy, 'scheduled-hour': hour.status == scheduled}">
+            <div *ngFor="let b of s.blocks" [ngClass]="{'hours-container': b.active, 'bussy-hour': b.status == bussy, 'scheduled-hour': b.status == scheduled}">
                 <mat-chip-list aria-label="Seleccion de horas">
-                    <mat-chip [selected]="hour.status == scheduled" class="">{{hour.value}}</mat-chip>
+                    <mat-chip [selected]="b.status == scheduled" class="">{{b.value}}</mat-chip>
                 </mat-chip-list>
-                <p [ngSwitch]="hour.status">
+                <p [ngSwitch]="b.status">
                     <span *ngSwitchCase="available">{{available}}</span>
                     <span *ngSwitchCase="bussy">{{bussy}}</span>
-                    <span *ngSwitchCase="scheduled" (click)="showDetail(hour)">{{scheduled}}</span>
+                    <span *ngSwitchCase="scheduled" (click)="showDetail(b)">{{scheduled}}</span>
                     <span *ngSwitchDefault>-</span>
                 </p>
-                <mat-slide-toggle [checked]="hour.status == available" [disabled]="hour.status == scheduled"></mat-slide-toggle>
+                <mat-slide-toggle (change)="updateBlock(s, b, $event)" [checked]="b.status == available" [disabled]="b.status == scheduled"></mat-slide-toggle>
             </div>
         </div>
         <ng-template #emptyBlocks>

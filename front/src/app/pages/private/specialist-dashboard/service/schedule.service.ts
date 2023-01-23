@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { CREATE_SPECIALIST_SCHEDULE_BLOCKS, SPECIALIST_SCHEDULE } from '../endpoints/schedule.endpoint';
+import { CREATE_SPECIALIST_SCHEDULE_BLOCKS, SPECIALIST_SCHEDULE, UPDATE_SPECIALIST_SCHEDULE_BLOCKS } from '../endpoints/schedule.endpoint';
 import { ScheduleResponse } from '../interfaces/schedule-response.interface';
 import { Schedule } from '../interfaces/schedule.interface';
 
@@ -30,6 +30,10 @@ export class ScheduleService {
   setSpecilistScheduleBlocks(uuid: string, date: string): Observable<ScheduleResponse> {
     console.log({ uuid , date })   
     return this.http.post<ScheduleResponse>(`${environment.api_url}${CREATE_SPECIALIST_SCHEDULE_BLOCKS}`, { uuid , date });
+  }
+
+  updateSpecialistScheduleBlock(schedule_uuid: string, block_id: number, status: string): Observable<ScheduleResponse> {
+    return this.http.post<ScheduleResponse>(`${environment.api_url}${UPDATE_SPECIALIST_SCHEDULE_BLOCKS}`, { schedule_uuid, block_id, status });
   }
 
   getDayOfWeekName(index: number): string {

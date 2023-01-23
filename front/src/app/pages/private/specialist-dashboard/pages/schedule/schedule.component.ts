@@ -25,23 +25,35 @@ export class ScheduleComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = this.service.getDate();
-    // this.currentDayOfWeekName = this.service.getDayOfWeekName(new Date().getDay());
     this.schedule = this.service.getSchedule();
-    console.log(this.schedule)
+    
+    this.getSpecialistSchedule("7ea60899-e908-49b3-b4e4-ef775f4dfd22", this.currentDate);
+  }
 
-    this.service.getSpecialistSchedule("25d62323-ed9b-4287-87b9-7a592523110f", this.currentDate).subscribe(
+  getSpecialistSchedule(uuid: string, date: string) {
+    this.service.getSpecialistSchedule(uuid, date).subscribe(
       (response) => {
         this.schedule.forEach((s, index) => {
-          console.log(s.date.toISOString().slice(0, 10))
-          response.schedule.forEach((x) => {
-            if (s.date.toISOString().slice(0, 10) == x.date) s.blocks = x.blocks;
-          })
+          response.schedule.forEach((x) => { 
+            if (s.date.toISOString().slice(0, 10) == x.date) {
+              s.blocks = [x.block_0, x.block_1, x.block_2, x.block_3, x.block_4, x.block_5, x.block_6, x.block_7, x.block_8, x.block_9, x.block_10, x.block_11]; 
+              s.uuid = x.uuid;
+            }
+          });
           s.expand = (s.date >= new Date()) ?  true : false;
           s.specialist_uuid = response.schedule[0].specialist_uuid; // TODO: Need to be set in session
-          console.log(s)
         });
       }
     )
+  }
+
+  updateBlock(schedule: Schedule, block: Block, event: any) {
+    console.log(schedule, block, event.checked)
+    let status = (event.checked) ? this.available : this.bussy;
+    this.service.updateSpecialistScheduleBlock(schedule.uuid!, block.id!, status).subscribe(
+      (response) => {
+        this.getSpecialistSchedule(response.schedule[0].specialist_uuid, this.currentDate);
+      });
   }
 
   showDetail(block: Block) {
@@ -51,20 +63,7 @@ export class ScheduleComponent implements OnInit {
   createBlock(schedule: Schedule) {
     this.service.setSpecilistScheduleBlocks(schedule.specialist_uuid!, schedule.date.toISOString().slice(0, 10)).subscribe(
       (response) => {
-        console.log(response.schedule);
-        this.service.getSpecialistSchedule(schedule.specialist_uuid!, this.currentDate).subscribe(
-          (response) => {
-            this.schedule.forEach((s, index) => {
-              console.log(s.date.toISOString().slice(0, 10))
-              response.schedule.forEach((x) => {
-                if (s.date.toISOString().slice(0, 10) == x.date) s.blocks = x.blocks;
-              })
-              s.expand = (s.date >= new Date()) ?  true : false;
-              s.specialist_uuid = response.schedule[0].specialist_uuid; // TODO: Need to be set in session
-              console.log(s)
-            });
-          }
-        )
+        this.getSpecialistSchedule(response.schedule[0].specialist_uuid, this.currentDate);
       }
     )
   }

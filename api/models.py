@@ -12,6 +12,13 @@ class BlockCreateRequest(BaseModel):
     uuid: str
     date: str
 
+
+class BlockUpdateRequest(BaseModel):
+    schedule_uuid: str
+    block_id: str
+    status: str
+
+
 class PaymentTrxId(BaseModel):
     trx_id: str
 

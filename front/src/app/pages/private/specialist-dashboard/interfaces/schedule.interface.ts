@@ -5,5 +5,6 @@ export interface Schedule {
     day: string;
     blocks: Block[];
     specialist_uuid?: string;
+    uuid?: string;
     expand?: boolean;
 }
