@@ -1,5 +1,5 @@
 export interface ScheduleResponse {
-    schedule: Schedule[];
+    schedule: Schedule;
     status: string;
 }
 

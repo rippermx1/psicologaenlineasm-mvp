@@ -19,7 +19,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatGridListModule } from '@angular/material/grid-list';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 
 @NgModule({
@@ -42,7 +42,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatListModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatGridListModule
+    MatGridListModule,
+    MatProgressBarModule
   ],
   exports: [
     MatStepperModule,
@@ -62,7 +63,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     MatListModule,
     MatExpansionModule,
     MatSlideToggleModule,
-    MatGridListModule
+    MatGridListModule,
+    MatProgressBarModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }

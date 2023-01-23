@@ -58,10 +58,10 @@ class FirebaseDatabase:
         try:
             self.ref = self.db.collection(u'schedules') #.document(uuid)
             # .where("date", "==", date)
-            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).stream()]
+            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).where("date", "==", date).stream()][0]
         except Exception as e:
             print(e)
-            return [] # TODO: Control this exception with a class that return [{'msg': 'User not exist'}]
+            return {} # TODO: Control this exception with a class that return [{'msg': 'User not exist'}]
 
 
     def set_specialist_schedule_block(self, specialist_uuid: str, date: str):
@@ -99,11 +99,8 @@ class FirebaseDatabase:
         print('update_specialist_schedule_block', status)
         try:
             self.ref = self.db.collection(u'schedules').document(uuid)
-            """ block = self.ref.get().to_dict()['block_{}'.format(block_id)]
-            block['status'] = status
-            self.ref.set({'block_{}'.format(block_id): block}) """
-            #return self.ref.update({'block_{}.status'.format(block_id): status})    
-            return self.ref.update({f'block_{block_id}.status': status})        
+            self.ref.update({ f'block_{block_id}.status': status })
+            return self.ref.get().to_dict()
         except Exception as e:
             print(e)
             return []
