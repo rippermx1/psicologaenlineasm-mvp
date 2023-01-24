@@ -52,18 +52,6 @@ class FirebaseDatabase:
         return [doc.to_dict() for doc in query.stream()] if query else None
 
 
-    def get_specialist_schedule(self, uuid: str, date: str):
-        print('get_specialist_schedule', uuid)
-        print('get_specialist_schedule', date)
-        try:
-            self.ref = self.db.collection(u'schedules') #.document(uuid)
-            # .where("date", "==", date)
-            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).where("date", "==", date).stream()][0]
-        except Exception as e:
-            print(e)
-            return {} # TODO: Control this exception with a class that return [{'msg': 'User not exist'}]
-
-
     def set_specialist_schedule_block(self, specialist_uuid: str, date: str):
         print('set_specialist_schedule_block', specialist_uuid)
         print('set_specialist_schedule_block', date)

@@ -1,10 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { CREATE_SPECIALIST_SCHEDULE_BLOCKS, SPECIALIST_SCHEDULE, UPDATE_SPECIALIST_SCHEDULE_BLOCKS } from '../endpoints/schedule.endpoint';
-import { ScheduleResponse } from '../interfaces/schedule-response.interface';
-import { Schedule } from '../interfaces/schedule.interface';
+import { Schedule, ScheduleModel } from '../interfaces/schedule.interface';
+import { Firestore, collectionData, docData } from '@angular/fire/firestore';
+import { collection, where, query, updateDoc, doc } from 'firebase/firestore';
+import { filter, first, map, defaultIfEmpty } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -20,20 +18,35 @@ export class ScheduleService {
     'Sábado',
   ];
   private currentDate: Date = new Date();
+  schedulesRef;
 
-  constructor(private http: HttpClient) {}
-
-  getSpecialistSchedule( uuid: string, date: string ): Observable<ScheduleResponse> {
-    return this.http.get<ScheduleResponse>(`${environment.api_url}${SPECIALIST_SCHEDULE}?uuid=${uuid}&date=${date}`);
+  constructor(
+    private fs: Firestore
+  ) {
+    this.schedulesRef = collection(this.fs, 'schedules')
   }
 
-  setSpecilistScheduleBlocks(uuid: string, date: string): Observable<ScheduleResponse> {
+  getSpecialistSchedule( specialist_uuid: string, date: string ) {
+    return collectionData(query(this.schedulesRef, where("specialist_uuid", "==", specialist_uuid), where("date", "==", date)))
+    .pipe(
+      // filter(documents => documents.length > 0),
+      map(documents => documents[0] as ScheduleModel),
+      first()
+    )
+  }
+
+  setSpecilistScheduleBlocks(uuid: string, date: string){
     console.log({ uuid , date })   
-    return this.http.post<ScheduleResponse>(`${environment.api_url}${CREATE_SPECIALIST_SCHEDULE_BLOCKS}`, { uuid , date });
+    // return this.http.post<ScheduleResponse>(`${environment.api_url}${CREATE_SPECIALIST_SCHEDULE_BLOCKS}`, { uuid , date });
   }
 
-  updateSpecialistScheduleBlock(schedule_uuid: string, block_id: number, status: string): Observable<ScheduleResponse> {
-    return this.http.post<ScheduleResponse>(`${environment.api_url}${UPDATE_SPECIALIST_SCHEDULE_BLOCKS}`, { schedule_uuid, block_id, status });
+  async updateSpecialistScheduleBlock(schedule_uuid: string, block_id: number, status: string){
+    const docToUpdate = doc(this.fs, `schedules/${schedule_uuid}`)
+    await updateDoc(docToUpdate, { [`block_${block_id}.status`]: status })
+    return docData(docToUpdate)
+    .pipe(
+      map(document => document as ScheduleModel)
+    );
   }
 
   getDayOfWeekName(index: number): string {

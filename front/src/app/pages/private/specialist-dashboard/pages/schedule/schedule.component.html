@@ -17,10 +17,10 @@
                     <p [ngSwitch]="b.status">
                         <span *ngSwitchCase="available">{{available}}</span>
                         <span *ngSwitchCase="bussy">{{bussy}}</span>
-                        <span *ngSwitchCase="scheduled" (click)="showDetail(b)">{{scheduled}} <button mat-raised-button color="primary">Anular</button> </span>
+                        <span *ngSwitchCase="scheduled" class="h-container" (click)="showDetail(b)">{{scheduled}} <button mat-icon-button><mat-icon>event_busy</mat-icon></button> </span>
                         <span *ngSwitchDefault>-</span>
                     </p>
-                    <div class="slide-container">
+                    <div class="h-container">
                         <mat-slide-toggle *ngIf="!updatingSchedule[i]" (change)="updateBlock(s, b, i, $event)" [checked]="b.status == available" [disabled]="b.status == scheduled"></mat-slide-toggle>
                         <mat-spinner *ngIf="updatingSchedule[i]" [diameter]="30"></mat-spinner>
                     </div>

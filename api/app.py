@@ -98,15 +98,6 @@ async def payment_status(request: PaymentTrxId):
 
 
 # Specialist Endpoints
-@app.get("/schedule/specialist/")
-async def get_specialist_schedule(uuid: str, date: str):
-    ''' Get the schedule by a given specialist UUID '''
-    try:
-        return {'status': 'success', 'schedule': db.get_specialist_schedule(uuid, date)}
-    except GetSpecialistScheduleException as e:
-        return {'status': 'error', 'status_detail': 'pending'}
-
-
 @app.post("/schedule/specialist/block/create")
 async def set_specialist_schedule_block(request: BlockCreateRequest):
     ''' Create the schedule block by default for a specific specialist by a given UUID and Date '''
