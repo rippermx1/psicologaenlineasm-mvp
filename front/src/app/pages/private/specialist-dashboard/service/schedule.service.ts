@@ -5,24 +5,17 @@ import { collection, where, query, updateDoc, doc, setDoc } from 'firebase/fires
 import { filter, first, map, defaultIfEmpty } from 'rxjs/operators';
 import { v4 as uuidv4 } from 'uuid';
 import { BLOCK_0, BLOCK_1, BLOCK_10, BLOCK_11, BLOCK_2, BLOCK_3, BLOCK_4, BLOCK_5, BLOCK_6, BLOCK_7, BLOCK_8, BLOCK_9 } from '../constants/schedule.contants';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScheduleService {
-  private daysOfWeek: string[] = [
-    'Domingo',
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-  ];
   schedulesRef;
 
   constructor(
-    private fs: Firestore
+    private fs: Firestore,
+    private sharedService: SharedService
   ) {
     this.schedulesRef = collection(this.fs, 'schedules')
   }
@@ -69,36 +62,18 @@ export class ScheduleService {
     );
   }
 
-  getDayOfWeekName(index: number): string {
-    return this.daysOfWeek.at(index)!;
-  }
-
-  getDate(): string {
-    return new Date().toISOString().slice(0, 10);
-  }
-
-  getWeekDates(): Date[] {
-    let weekDates: Date[] = [];
-    let currentDate = new Date();
-    let dayOfWeek = currentDate.getUTCDay(); //0-6 , 0 is sunday
-    currentDate.setDate(currentDate.getDate() - dayOfWeek); // start of the week
-    for (let i = 0; i < 7; i++) {
-      weekDates.push(new Date(currentDate));
-      currentDate.setDate(currentDate.getDate() + 1);
-    }
-    return weekDates;
-  }
-
   getSchedule() {
     let schedule: Schedule[] = [];
-    this.getWeekDates().forEach((date, index) => {
+    this.sharedService.daysOfWeek.forEach((date, index) => {
       if (index == 0) return;
       schedule.push({
         date: date,
-        day: this.getDayOfWeekName(date.getDay()),
+        day: this.sharedService.getDayOfWeekName(date.getDay()),
         blocks: [],
       });
     });
     return schedule;
   }
+
+  getDate(): string { return this.sharedService.dateStr }
 }

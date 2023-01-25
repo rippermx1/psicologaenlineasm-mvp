@@ -1,6 +1,12 @@
 <h2 class="title">{{title}}</h2>
 
-<mat-accordion class="example-headers-align" multi> 
+<div class="days-container">
+    <mat-chip-list aria-label="Dias de la semana">
+        <mat-chip [selected]="d.selected" (click)="selectDay(d)" *ngFor="let d of daysOfWeek$ | async; let i = index">{{d.day}}</mat-chip>
+    </mat-chip-list>
+</div>
+
+<mat-accordion class="example-headers-align" multi *ngIf="!fecthingMeetData; else fetching"> 
     <mat-expansion-panel (opened)="loadSchedule()"> <!--[disabled]="!s.blocks.length && !s.expand"-->
         <mat-expansion-panel-header>
             <mat-panel-title>asd</mat-panel-title>
@@ -36,3 +42,6 @@
 
     </mat-expansion-panel>
 </mat-accordion>
+<ng-template #fetching>
+    <mat-progress-bar mode="query"></mat-progress-bar>
+</ng-template>
