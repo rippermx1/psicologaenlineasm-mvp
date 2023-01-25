@@ -23,7 +23,6 @@ export class ScheduleService {
   getSpecialistSchedule( specialist_uuid: string, date: string ) {
     return collectionData(query(this.schedulesRef, where("specialist_uuid", "==", specialist_uuid), where("date", "==", date)))
     .pipe(
-      // filter(documents => documents.length > 0),
       map(documents => documents[0] as ScheduleModel),
       first()
     )
