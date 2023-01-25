@@ -97,25 +97,6 @@ async def payment_status(request: PaymentTrxId):
         pass
 
 
-# Specialist Endpoints
-@app.post("/schedule/specialist/block/create")
-async def set_specialist_schedule_block(request: BlockCreateRequest):
-    ''' Create the schedule block by default for a specific specialist by a given UUID and Date '''
-    print(request)
-    try:
-        return {'status': 'success', 'schedule': db.set_specialist_schedule_block(request.uuid, request.date)}
-    except GetSpecialistScheduleException as e:
-        return {'status': 'error', 'status_detail': 'error'}
-
-
-@app.post("/schedule/specialist/block/update")
-async def update_specialist_schedule_block(request: BlockUpdateRequest):
-    ''' Update the schedule block for a specific specialist by a given schedule_uuid and block_id '''
-    try:
-        return {'status': 'success', 'schedule': db.update_specialist_schedule_block(request.schedule_uuid, request.block_id, request.status)}
-    except GetSpecialistScheduleException as e:
-        return {'status': 'error', 'status_detail': 'error'}
-
 
 # Admin Settings Endpoints
 @app.get("/schedule/days/default")

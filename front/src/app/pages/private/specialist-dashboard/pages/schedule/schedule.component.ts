@@ -74,11 +74,12 @@ export class ScheduleComponent implements OnInit {
     
   }
 
-  createBlock(schedule: Schedule) {
-    /* this.service.setSpecilistScheduleBlocks(this.specialistUuid, schedule.date.toISOString().slice(0, 10)).subscribe(
-      (response) => {
-        this.refreshScheduleUI(response);
-      }
-    ) */
+  async createBlock(schedule: Schedule) {
+    console.log(schedule)
+    const create$ = await this.service.setSpecilistScheduleBlocks(this.specialistUuid, schedule.date.toISOString().slice(0, 10));
+    create$.subscribe(doc => {
+      console.log(doc)
+      this.refreshScheduleUI(doc);
+    });
   }
 }
