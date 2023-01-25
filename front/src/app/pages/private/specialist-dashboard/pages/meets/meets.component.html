@@ -1,1 +1,38 @@
-<p>meets works!</p>
+<h2 class="title">{{title}}</h2>
+
+<mat-accordion class="example-headers-align" multi> 
+    <mat-expansion-panel (opened)="loadSchedule()"> <!--[disabled]="!s.blocks.length && !s.expand"-->
+        <mat-expansion-panel-header>
+            <mat-panel-title>asd</mat-panel-title>
+            <mat-panel-description>asd<mat-icon>date_range</mat-icon></mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <!-- <div *ngIf="!fetchingSchedule; else fetching">
+            <div *ngIf="s.blocks.length; else emptyBlocks">
+                <div *ngFor="let b of s.blocks; let i = index" [ngClass]="{'hours-container': b.active, 'bussy-hour': b.status == bussy, 'scheduled-hour': b.status == scheduled}">
+                    <mat-chip-list aria-label="Seleccion de horas">
+                        <mat-chip [selected]="b.status == scheduled" class="">{{b.value}}</mat-chip>
+                    </mat-chip-list>
+                    <p [ngSwitch]="b.status">
+                        <span *ngSwitchCase="available">{{available}}</span>
+                        <span *ngSwitchCase="bussy">{{bussy}}</span>
+                        <span *ngSwitchCase="scheduled" class="h-container" (click)="showDetail(b)">{{scheduled}} <button mat-icon-button><mat-icon>event_busy</mat-icon></button> </span>
+                        <span *ngSwitchDefault>-</span>
+                    </p>
+                    <div class="h-container">
+                        <mat-slide-toggle *ngIf="!updatingSchedule[i]" (change)="updateBlock(s, b, i, $event)" [checked]="b.status == available" [disabled]="b.status == scheduled"></mat-slide-toggle>
+                        <mat-spinner *ngIf="updatingSchedule[i]" [diameter]="30"></mat-spinner>
+                    </div>
+                </div>                
+            </div>
+            <ng-template #emptyBlocks>
+                <p>Aún no hay horas creadas. Si quieres crear un nuevo bloque de horas por defecto has click en el botón.</p>
+                <button mat-raised-button color="primary" (click)="createBlock(s)">Crear bloque de horas</button>
+            </ng-template>
+        </div>
+        <ng-template #fetching>
+            <mat-progress-bar mode="query"></mat-progress-bar>
+        </ng-template> -->
+
+    </mat-expansion-panel>
+</mat-accordion>

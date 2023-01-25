@@ -19,7 +19,6 @@ export class ScheduleService {
     'Viernes',
     'Sábado',
   ];
-  private currentDate: Date = new Date();
   schedulesRef;
 
   constructor(
@@ -80,11 +79,12 @@ export class ScheduleService {
 
   getWeekDates(): Date[] {
     let weekDates: Date[] = [];
-    let dayOfWeek = this.currentDate.getUTCDay(); //0-6 , 0 is sunday
-    this.currentDate.setDate(this.currentDate.getDate() - dayOfWeek); // start of the week
+    let currentDate = new Date();
+    let dayOfWeek = currentDate.getUTCDay(); //0-6 , 0 is sunday
+    currentDate.setDate(currentDate.getDate() - dayOfWeek); // start of the week
     for (let i = 0; i < 7; i++) {
-      weekDates.push(new Date(this.currentDate));
-      this.currentDate.setDate(this.currentDate.getDate() + 1);
+      weekDates.push(new Date(currentDate));
+      currentDate.setDate(currentDate.getDate() + 1);
     }
     return weekDates;
   }

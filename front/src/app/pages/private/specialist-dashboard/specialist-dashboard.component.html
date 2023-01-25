@@ -9,7 +9,7 @@
 </mat-toolbar>
 
 <mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="false">
-    <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
         <mat-nav-list>
             <mat-list-item *ngFor="let i of items">
                 <mat-icon matListIcon>{{i.icon}}</mat-icon>

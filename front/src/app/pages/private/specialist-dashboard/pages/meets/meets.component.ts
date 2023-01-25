@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./meets.component.scss']
 })
 export class MeetsComponent implements OnInit {
-
+  title: string = 'Citas';
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  loadSchedule() {}
 
 }
