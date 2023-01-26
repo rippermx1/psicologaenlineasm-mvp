@@ -4,7 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '',
+    redirectTo: 'home',
     pathMatch: 'full'
   },
   {
@@ -20,17 +20,17 @@ const routes: Routes = [
     loadChildren: () => import('./pages/public/home/home.module').then(m => m.HomeModule)
   },
   {
-    path: 'user-profile',
-    loadChildren: () => import('./pages/private/user-profile/user-profile.module').then(m => m.UserProfileModule)
+    path: 'patient-dashboard',
+    loadChildren: () => import('./pages/private/patient-dashboard/patient-dashboard.module').then(m => m.PatientDashboardModule)
   },
   {
     path: 'specialist-dashboard',
     loadChildren: () => import('./pages/private/specialist-dashboard/specialist-dashboard.module').then(m => m.SpecialistDashboardModule)
   },
-  {
+  /* {
     path: 'meet-room',
     loadChildren: () => import('./pages/private/meet-room/meet-room.module').then(m => m.MeetRoomModule)
-  },
+  }, */
   /* {
     path:'enrollment',
     loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)
