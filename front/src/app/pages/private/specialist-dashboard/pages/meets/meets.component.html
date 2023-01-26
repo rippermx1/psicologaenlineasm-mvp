@@ -17,13 +17,15 @@
             <mat-divider></mat-divider>
             <div class="patient-info-container">
                 <div class="left">
-                    <p>Nombre: {{m.patient_fullname}}</p>
-                    <p>Rut: {{m.patient_rut}}</p>
-                    <p>Correo: {{m.patient_email}}</p>
-                    <p>Teléfono: {{m.patient_cellphone}}</p>
+                    <p><b>Nombre:</b> {{m.patient_fullname}}</p>
+                    <p><b>Rut:</b> {{m.patient_rut}}</p>
+                    <p><b>Correo:</b> {{m.patient_email}}</p>
+                    <p><b>Teléfono:</b> {{m.patient_cellphone}}</p>
                 </div>
                 <div class="right">
-                    <p><a>Abrir Sala de Video Terapia</a></p>
+                    <p><button mat-raised-button color="">Abrir Sala de terapia</button></p>
+                    <p><button mat-raised-button color="">Abrir Chat</button></p>
+                    <p><button mat-raised-button color="warn">Cancelar Sesión</button></p>
                 </div>
             </div>
         </mat-expansion-panel>
