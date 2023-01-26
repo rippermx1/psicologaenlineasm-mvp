@@ -1,0 +1,18 @@
+.empty-patients{
+    text-align: center;
+}
+
+.patient-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 20px 0 0px 0;
+    &.left {
+        align-items: flex-start;
+        width: 50%;
+    }
+    &.right {
+        align-items: flex-end;
+        width: 50%;
+    }
+}

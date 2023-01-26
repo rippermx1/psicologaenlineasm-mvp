@@ -6,7 +6,7 @@ import { SpecialistDashboardComponent } from './specialist-dashboard.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ScheduleComponent } from './pages/schedule/schedule.component';
 import { MeetsComponent } from './pages/meets/meets.component';
-import { PacientsComponent } from './pages/pacients/pacients.component';
+import { PatientsComponent } from './pages/patients/patients.component';
 import { DteComponent } from './pages/dte/dte.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { SettingsComponent } from './pages/settings/settings.component';
@@ -17,7 +17,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
     SpecialistDashboardComponent,
     ScheduleComponent,
     MeetsComponent,
-    PacientsComponent,
+    PatientsComponent,
     DteComponent,
     ProfileComponent,
     SettingsComponent

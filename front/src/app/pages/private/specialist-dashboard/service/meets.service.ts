@@ -9,7 +9,7 @@ import { Firestore, collection, collectionData } from '@angular/fire/firestore';
   providedIn: 'root',
 })
 export class MeetsService {
-  meetsRef;
+  private meetsRef;
   constructor(
     private sharedService: SharedService,
     private fs: Firestore

@@ -10,7 +10,7 @@
     <div *ngIf="meets.length; else emptyMeets">
         <mat-expansion-panel (opened)="loadSchedule()" *ngFor="let m of meets">
             <mat-expansion-panel-header>
-                <mat-panel-title>{{m.block}}</mat-panel-title>
+                <mat-panel-title><b>{{m.block}}</b></mat-panel-title>
                 <mat-panel-description>{{m.date}}</mat-panel-description>
             </mat-expansion-panel-header>
 

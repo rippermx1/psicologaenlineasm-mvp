@@ -15,7 +15,7 @@ export class SpecialistDashboardComponent implements OnInit {
   @ViewChild('drawer', { read: ViewContainerRef }) container!: ViewContainerRef;
   @ViewChild('schedule') tpl_schedule!: TemplateRef<any>;
   @ViewChild('meets') tpl_meets!: TemplateRef<any>;
-  @ViewChild('pacients') tpl_pacients!: TemplateRef<any>;
+  @ViewChild('pacients') tpl_patients!: TemplateRef<any>;
   @ViewChild('dte') tpl_dte!: TemplateRef<any>;
   @ViewChild('profile') tpl_profile!: TemplateRef<any>;
   @ViewChild('settings') tpl_settings!: TemplateRef<any>;
@@ -45,7 +45,7 @@ export class SpecialistDashboardComponent implements OnInit {
         template = this.tpl_meets;
         break;
       case 3:
-        template = this.tpl_pacients;
+        template = this.tpl_patients;
         break;
       case 4:
         template = this.tpl_dte;
