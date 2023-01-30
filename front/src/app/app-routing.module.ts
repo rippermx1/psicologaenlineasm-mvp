@@ -12,13 +12,13 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
   },
   {
-    path: 'schedule-meet',
-    loadChildren: () => import('./pages/public/schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
-  },
-  {
     path: 'home',
     loadChildren: () => import('./pages/public/home/home.module').then(m => m.HomeModule)
   },
+  {
+    path: 'schedule-meet',
+    loadChildren: () => import('./pages/public/schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
+  }, 
   {
     path: 'patient-dashboard',
     loadChildren: () => import('./pages/private/patient-dashboard/patient-dashboard.module').then(m => m.PatientDashboardModule)
@@ -26,7 +26,8 @@ const routes: Routes = [
   {
     path: 'specialist-dashboard',
     loadChildren: () => import('./pages/private/specialist-dashboard/specialist-dashboard.module').then(m => m.SpecialistDashboardModule)
-  },
+  }, 
+  
   /* {
     path: 'meet-room',
     loadChildren: () => import('./pages/private/meet-room/meet-room.module').then(m => m.MeetRoomModule)

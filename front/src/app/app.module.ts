@@ -9,18 +9,15 @@ import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
 import { environment } from '../environments/environment';
 import { provideAuth,getAuth } from '@angular/fire/auth';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { PatientDashboardComponent } from './pages/private/patient-dashboard/patient-dashboard.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    PatientDashboardComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     /* provideAuth(() => getAuth()), */
     provideFirestore(() => getFirestore()),
