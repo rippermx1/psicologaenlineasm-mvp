@@ -20,11 +20,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/public/schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
   }, 
   {
-    path: 'patient-dashboard',
+    path: 'user',
     loadChildren: () => import('./pages/private/patient-dashboard/patient-dashboard.module').then(m => m.PatientDashboardModule)
   },
   {
-    path: 'specialist-dashboard',
+    path: 'specialist',
     loadChildren: () => import('./pages/private/specialist-dashboard/specialist-dashboard.module').then(m => m.SpecialistDashboardModule)
   }, 
   

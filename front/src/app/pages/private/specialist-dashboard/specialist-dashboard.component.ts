@@ -22,12 +22,12 @@ export class SpecialistDashboardComponent implements OnInit {
 
 
   items = [
-    { id: 1, icon: 'date_range', name: 'Agenda' },
-    { id: 2, icon: 'date_range', name: 'Citas' },
-    { id: 3, icon: 'date_range', name: 'Pacientes' },
-    { id: 4, icon: 'date_range', name: 'Boletas' },
-    { id: 5, icon: 'date_range', name: 'Perfil' },
-    { id: 6, icon: 'date_range', name: 'Configuración' },
+    { id: 1, icon: 'date_range', path: 'schedule' ,name: 'Agenda' },
+    { id: 2, icon: 'date_range', path: 'meets' ,name: 'Citas' },
+    { id: 3, icon: 'date_range', path: '' ,name: 'Pacientes' },
+    { id: 4, icon: 'date_range', path: '' ,name: 'Boletas' },
+    { id: 5, icon: 'date_range', path: '' ,name: 'Perfil' },
+    { id: 6, icon: 'date_range', path: '' ,name: 'Configuración' },
   ];
 
   constructor() { }
