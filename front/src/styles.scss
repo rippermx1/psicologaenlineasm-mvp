@@ -1,8 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'assets/styles/colors.scss';
+
 $text-color-light: #fff;
 $alpha: 0.5;
 $info-color-alpha: rgba(33, 150, 243, $alpha);
-@import 'assets/styles/colors.scss';
+$mat-card-padding: 1.5em;
 
 body {
     margin: 0;

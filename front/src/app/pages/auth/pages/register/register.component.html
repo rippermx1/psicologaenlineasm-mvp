@@ -30,6 +30,15 @@
                 </mat-error>
             </mat-form-field>
             <mat-form-field>
+                <input matInput placeholder="Celular" formControlName="cellphone">
+                <mat-error *ngIf="form.get('cellphone')?.hasError('required')">
+                    Celular es requerido
+                </mat-error>
+                <mat-error *ngIf="form.get('cellphone')?.hasError('minlength')">
+                    Celular debe tener al menos 9 caracteres
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field>
                 <input matInput placeholder="Contraseña" formControlName="password">
                 <mat-error *ngIf="form.get('password')?.hasError('required')">
                     Contraseña es requerida
@@ -47,10 +56,10 @@
                     Contraseñas no coinciden
                 </mat-error>
             </mat-form-field>
-            <mat-form-field>
-                <input matInput placeholder="Celular" formControlName="cellphone">
-            </mat-form-field>
             <button mat-raised-button color="primary" [disabled]="form.invalid">Confirmar</button>
-        </form>
+        </form>        
     </mat-card-content>
+    <mat-card-footer>
+        <div class="access">¿Ya tienes una cuenta? <a routerLink="/auth/login">Acceder</a></div>
+    </mat-card-footer>
 </mat-card>

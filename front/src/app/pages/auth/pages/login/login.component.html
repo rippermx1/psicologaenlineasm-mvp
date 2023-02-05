@@ -1,14 +1,28 @@
-<mat-tab-group animationDuration="0ms">
-    <mat-tab label="user">
-        <!-- <mat-card>
-            <mat-card-title>Registro</mat-card-title>
-            <mat-card-content>
-                <form [formGroup]="login" (ngSubmit)="onSubmit()">
+<mat-card>
+    <h2 class="title">Iniciar Sesión</h2>
+
+    <mat-tab-group animationDuration="0ms" mat-stretch-tabs>
+        <mat-tab label="Usuario">
+            <div class="container">
+                <form [formGroup]="userForm" (ngSubmit)="onSubmit('user')">
                     <mat-form-field>
-                        <input matInput placeholder="Nombre" formControlName="name">
+                        <input matInput placeholder="Email" formControlName="email">
                     </mat-form-field>
                     <mat-form-field>
-                        <input matInput placeholder="Apellidos" formControlName="lastName">
+                        <input matInput placeholder="Contraseña" formControlName="password">
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" [disabled]="userForm.invalid">Acceder</button>
+                </form>
+                <div class="forgot-password">¿Olvidaste tu <a routerLink="/auth/forgot-password">Contraseña</a>?</div>
+                <mat-divider></mat-divider>
+                <div class="register">¿No tienes una cuenta? <a routerLink="/auth/register">Regístrate</a></div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Terapeuta">
+            <div class="container">
+                <form [formGroup]="specialistForm" (ngSubmit)="onSubmit('specialist')">
+                    <mat-form-field>
+                        <input matInput placeholder="Rut" formControlName="rut">
                     </mat-form-field>
                     <mat-form-field>
                         <input matInput placeholder="Email" formControlName="email">
@@ -16,16 +30,12 @@
                     <mat-form-field>
                         <input matInput placeholder="Contraseña" formControlName="password">
                     </mat-form-field>
-                    <mat-form-field>
-                        <input matInput placeholder="Confirmar Contraseña" formControlName="passwordConfirm">
-                    </mat-form-field>
-                    <mat-form-field>
-                        <input matInput placeholder="Celular" formControlName="phone">
-                    </mat-form-field>
-                    <button mat-raised-button color="primary" [disabled]="registerForm.invalid">Confirmar</button>
+                    <button mat-raised-button color="primary" [disabled]="specialistForm.invalid">Acceder</button>
                 </form>
-            </mat-card-content>
-        </mat-card> -->
-    </mat-tab>
-    <mat-tab label="specialist">Terapeuta</mat-tab>
-</mat-tab-group>
+                <div class="forgot-password">¿Olvidaste tu <a routerLink="/auth/forgot-password">Contraseña</a>?</div>
+                <mat-divider></mat-divider>
+                <div class="register">¿No tienes una cuenta? <a routerLink="/auth/register">Regístrate</a></div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>
