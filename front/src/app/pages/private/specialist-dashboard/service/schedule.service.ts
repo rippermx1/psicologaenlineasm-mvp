@@ -1,70 +1,78 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { CREATE_SPECIALIST_SCHEDULE_BLOCKS, SPECIALIST_SCHEDULE, UPDATE_SPECIALIST_SCHEDULE_BLOCKS } from '../endpoints/schedule.endpoint';
-import { ScheduleResponse } from '../interfaces/schedule-response.interface';
-import { Schedule } from '../interfaces/schedule.interface';
+import { Schedule, ScheduleModel } from '../interfaces/schedule.interface';
+import { Firestore, collectionData, docData } from '@angular/fire/firestore';
+import { collection, where, query, updateDoc, doc, setDoc } from 'firebase/firestore';
+import { filter, first, map, defaultIfEmpty } from 'rxjs/operators';
+import { v4 as uuidv4 } from 'uuid';
+import { BLOCK_0, BLOCK_1, BLOCK_10, BLOCK_11, BLOCK_2, BLOCK_3, BLOCK_4, BLOCK_5, BLOCK_6, BLOCK_7, BLOCK_8, BLOCK_9 } from '../constants/schedule.contants';
+import { SharedService } from 'src/app/shared/services/shared.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScheduleService {
-  private daysOfWeek: string[] = [
-    'Domingo',
-    'Lunes',
-    'Martes',
-    'Miércoles',
-    'Jueves',
-    'Viernes',
-    'Sábado',
-  ];
-  private currentDate: Date = new Date();
+  schedulesRef;
 
-  constructor(private http: HttpClient) {}
-
-  getSpecialistSchedule( uuid: string, date: string ): Observable<ScheduleResponse> {
-    return this.http.get<ScheduleResponse>(`${environment.api_url}${SPECIALIST_SCHEDULE}?uuid=${uuid}&date=${date}`);
+  constructor(
+    private fs: Firestore,
+    private sharedService: SharedService
+  ) {
+    this.schedulesRef = collection(this.fs, 'schedules')
   }
 
-  setSpecilistScheduleBlocks(uuid: string, date: string): Observable<ScheduleResponse> {
-    console.log({ uuid , date })   
-    return this.http.post<ScheduleResponse>(`${environment.api_url}${CREATE_SPECIALIST_SCHEDULE_BLOCKS}`, { uuid , date });
+  getSpecialistSchedule( specialist_uuid: string, date: string ) {
+    return collectionData(query(this.schedulesRef, where("specialist_uuid", "==", specialist_uuid), where("date", "==", date)))
+    .pipe(
+      map(documents => documents[0] as ScheduleModel),
+      first()
+    )
   }
 
-  updateSpecialistScheduleBlock(schedule_uuid: string, block_id: number, status: string): Observable<ScheduleResponse> {
-    return this.http.post<ScheduleResponse>(`${environment.api_url}${UPDATE_SPECIALIST_SCHEDULE_BLOCKS}`, { schedule_uuid, block_id, status });
+  async setSpecilistScheduleBlocks(specialist_uuid: string, date: string){
+    const id = uuidv4();
+    
+    await setDoc(doc(this.schedulesRef, `${id}`), {
+        "uuid": id,
+        "specialist_uuid": specialist_uuid,
+        "date": date,
+        "block_0": BLOCK_0,
+        "block_1": BLOCK_1,
+        "block_2": BLOCK_2,
+        "block_3": BLOCK_3,
+        "block_4": BLOCK_4,
+        "block_5": BLOCK_5,
+        "block_6": BLOCK_6,
+        "block_7": BLOCK_7,
+        "block_8": BLOCK_8,
+        "block_9": BLOCK_9,
+        "block_10": BLOCK_10,
+        "block_11": BLOCK_11
+    });
+    return docData(doc(this.fs, `schedules/${id}`)).pipe(
+      map(document => document as ScheduleModel)
+    );
   }
 
-  getDayOfWeekName(index: number): string {
-    return this.daysOfWeek.at(index)!;
-  }
-
-  getDate(): string {
-    return new Date().toISOString().slice(0, 10);
-  }
-
-  getWeekDates(): Date[] {
-    let weekDates: Date[] = [];
-    let dayOfWeek = this.currentDate.getUTCDay(); //0-6 , 0 is sunday
-    this.currentDate.setDate(this.currentDate.getDate() - dayOfWeek); // start of the week
-    for (let i = 0; i < 7; i++) {
-      weekDates.push(new Date(this.currentDate));
-      this.currentDate.setDate(this.currentDate.getDate() + 1);
-    }
-    return weekDates;
+  async updateSpecialistScheduleBlock(schedule_uuid: string, block_id: number, status: string){
+    const docToUpdate = doc(this.fs, `schedules/${schedule_uuid}`)
+    await updateDoc(docToUpdate, { [`block_${block_id}.status`]: status })
+    return docData(docToUpdate).pipe(
+      map(document => document as ScheduleModel)
+    );
   }
 
   getSchedule() {
     let schedule: Schedule[] = [];
-    this.getWeekDates().forEach((date, index) => {
+    this.sharedService.daysOfWeek.forEach((date, index) => {
       if (index == 0) return;
       schedule.push({
         date: date,
-        day: this.getDayOfWeekName(date.getDay()),
+        day: this.sharedService.getDayOfWeekName(date.getDay()),
         blocks: [],
       });
     });
     return schedule;
   }
+
+  getDate(): string { return this.sharedService.dateStr }
 }

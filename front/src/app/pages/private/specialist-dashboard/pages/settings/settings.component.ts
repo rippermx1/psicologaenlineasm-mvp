@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DEFAULT_DAYS } from '../../endpoints/settings.endpoint';
+import { MeetsService } from '../../service/meets.service';
 import { SettingsService } from '../../service/settings.service';
 
 @Component({
@@ -8,21 +9,19 @@ import { SettingsService } from '../../service/settings.service';
   styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
-  buttons = [
+  buttonsSchedule = [
     { tag: 'agenda', endpoint: DEFAULT_DAYS, name: 'setDefaultDays' },
     { tag: 'agenda', endpoint: '', name: 'Button 2' },
-    { tag: 'agenda', endpoint: '', name: 'Button 3' },
-    { tag: 'agenda', endpoint: '', name: 'Button 4' },
-    { tag: 'agenda', endpoint: '', name: 'Button 5' },
-    { tag: 'agenda', endpoint: '', name: 'Button 6' },
-    { tag: 'agenda', endpoint: '', name: 'Button 7' },
-    { tag: 'agenda', endpoint: '', name: 'Button 8' },
-    { tag: 'agenda', endpoint: '', name: 'Button 9' },
-    { tag: 'agenda', endpoint: '', name: 'Button 10' },
-    { tag: 'agenda', endpoint: '', name: 'Button 11' },
+    { tag: 'agenda', endpoint: '', name: 'Button 3' }
+  ];
+  buttonsMeet = [
+    { tag: 'citas', endpoint: '', name: 'CitasGenericas' },
+    { tag: 'citas', endpoint: '', name: 'Button 2' },
+    { tag: 'citas', endpoint: '', name: 'Button 3' }
   ];
   constructor(
     private service: SettingsService,
+    private meetService: MeetsService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +34,11 @@ export class SettingsComponent implements OnInit {
           console.log(res);
         });
         break;
-
+      case 'CitasGenericas':
+        /* this.meetService.setDefaultDays(button.endpoint).subscribe((res: any) => {
+          console.log(res);
+        }); */
+        break;
       default:
         break;
     }

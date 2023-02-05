@@ -52,63 +52,6 @@ class FirebaseDatabase:
         return [doc.to_dict() for doc in query.stream()] if query else None
 
 
-    def get_specialist_schedule(self, uuid: str, date: str):
-        print('get_specialist_schedule', uuid)
-        print('get_specialist_schedule', date)
-        try:
-            self.ref = self.db.collection(u'schedules') #.document(uuid)
-            # .where("date", "==", date)
-            return [doc.to_dict() for doc in self.ref.where("specialist_uuid", "==", uuid).stream()]
-        except Exception as e:
-            print(e)
-            return [] # TODO: Control this exception with a class that return [{'msg': 'User not exist'}]
-
-
-    def set_specialist_schedule_block(self, specialist_uuid: str, date: str):
-        print('set_specialist_schedule_block', specialist_uuid)
-        print('set_specialist_schedule_block', date)
-        uuid = str(uuid4())
-        try:
-            self.ref = self.db.collection(u'schedules').document(uuid)
-            self.ref.set({
-                "uuid": uuid,
-                "specialist_uuid": specialist_uuid,
-                "date": date,
-                "block_0": BLOCK_0,
-                "block_1": BLOCK_1,
-                "block_2": BLOCK_2,
-                "block_3": BLOCK_3,
-                "block_4": BLOCK_4,
-                "block_5": BLOCK_5,
-                "block_6": BLOCK_6,
-                "block_7": BLOCK_7,
-                "block_8": BLOCK_8,
-                "block_9": BLOCK_9,
-                "block_10": BLOCK_10,
-                "block_11": BLOCK_11
-            })
-            return self.ref.get().to_dict()
-        except Exception as e:
-            print(e)
-            return [] # TODO: Control this exception with a class that return
-
-
-    def update_specialist_schedule_block(self, uuid: str, block_id: str, status: str):
-        print('update_specialist_schedule_block', uuid)
-        print('update_specialist_schedule_block', block_id)
-        print('update_specialist_schedule_block', status)
-        try:
-            self.ref = self.db.collection(u'schedules').document(uuid)
-            """ block = self.ref.get().to_dict()['block_{}'.format(block_id)]
-            block['status'] = status
-            self.ref.set({'block_{}'.format(block_id): block}) """
-            #return self.ref.update({'block_{}.status'.format(block_id): status})    
-            return self.ref.update({f'block_{block_id}.status': status})        
-        except Exception as e:
-            print(e)
-            return []
-
-
     ''' Use only for URGENCY.  Specialist can't be restored'''
     def delete_specialist(self, uuid: str):
         self.ref = self.db.collection(u'specialists').document(uuid)

@@ -9,14 +9,20 @@
 </mat-toolbar>
 
 <mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="false">
-    <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-drawer #drawer class="example-sidenav" mode="side" opened>
         <mat-nav-list>
             <mat-list-item *ngFor="let i of items">
                 <mat-icon matListIcon>{{i.icon}}</mat-icon>
-                <a matLine (click)="loadComponent(i.id)">{{ i.name }}</a>
+                <a matLine [routerLink]="[{ outlets: { 'specialist': [i.path] } }]">{{ i.name }}</a>
+                <!-- (click)="loadComponent(i.id)" -->
             </mat-list-item>
         </mat-nav-list>
     </mat-drawer>
+
+    <mat-drawer-content class="padding-base">
+        <router-outlet name="specialist"></router-outlet>
+    </mat-drawer-content>
+    
     
     <!--Agenda-->
     <ng-template #schedule>
@@ -35,7 +41,7 @@
     <!--Pacientes-->
     <ng-template #pacients>
         <mat-drawer-content class="padding-base">
-            <app-pacients></app-pacients>
+            <app-patients></app-patients>
         </mat-drawer-content>
     </ng-template>
 

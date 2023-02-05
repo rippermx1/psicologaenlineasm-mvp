@@ -1,29 +1,3 @@
-.example-action-buttons {
-    padding-bottom: 20px;
-}
-
-.example-headers-align .mat-expansion-panel-header-title,
-.example-headers-align .mat-expansion-panel-header-description {
-    flex-basis: 0;
-}
-
-.example-headers-align .mat-expansion-panel-header-description {
-    justify-content: space-between;
-    align-items: center;
-}
-
-.example-headers-align .mat-form-field + .mat-form-field {
-    margin-left: 8px;
-}
-
-mat-chip {
-    max-width: 100px;
-}
-
-.mat-standard-chip {
-    justify-content: center;
-}
-
 .hours-container{
     display: flex;
     flex-direction: row;
@@ -45,4 +19,11 @@ mat-chip {
 .scheduled-hour {
     background: #f2f2f2;
     border-radius: 10px;
+}
+
+.h-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }

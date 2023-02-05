@@ -15,19 +15,19 @@ export class SpecialistDashboardComponent implements OnInit {
   @ViewChild('drawer', { read: ViewContainerRef }) container!: ViewContainerRef;
   @ViewChild('schedule') tpl_schedule!: TemplateRef<any>;
   @ViewChild('meets') tpl_meets!: TemplateRef<any>;
-  @ViewChild('pacients') tpl_pacients!: TemplateRef<any>;
+  @ViewChild('pacients') tpl_patients!: TemplateRef<any>;
   @ViewChild('dte') tpl_dte!: TemplateRef<any>;
   @ViewChild('profile') tpl_profile!: TemplateRef<any>;
   @ViewChild('settings') tpl_settings!: TemplateRef<any>;
 
 
   items = [
-    { id: 1, icon: 'date_range', name: 'Agenda' },
-    { id: 2, icon: 'date_range', name: 'Citas' },
-    { id: 3, icon: 'date_range', name: 'Pacientes' },
-    { id: 4, icon: 'date_range', name: 'Boletas' },
-    { id: 5, icon: 'date_range', name: 'Perfil' },
-    { id: 6, icon: 'date_range', name: 'Configuración' },
+    { id: 1, icon: 'date_range', path: 'schedule' ,name: 'Agenda' },
+    { id: 2, icon: 'date_range', path: 'meets' ,name: 'Citas' },
+    { id: 3, icon: 'date_range', path: '' ,name: 'Pacientes' },
+    { id: 4, icon: 'date_range', path: '' ,name: 'Boletas' },
+    { id: 5, icon: 'date_range', path: '' ,name: 'Perfil' },
+    { id: 6, icon: 'date_range', path: '' ,name: 'Configuración' },
   ];
 
   constructor() { }
@@ -45,7 +45,7 @@ export class SpecialistDashboardComponent implements OnInit {
         template = this.tpl_meets;
         break;
       case 3:
-        template = this.tpl_pacients;
+        template = this.tpl_patients;
         break;
       case 4:
         template = this.tpl_dte;

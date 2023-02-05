@@ -1,0 +1,39 @@
+<h2 class="title">{{title}}</h2>
+
+<mat-accordion class="example-headers-align" multi *ngIf="!fecthingData; else fetching"> 
+    <div *ngIf="patients.length; else emptyPatients">
+        <mat-expansion-panel (opened)="loadPatientInfo()" *ngFor="let p of patients">
+            <mat-expansion-panel-header>
+                <mat-panel-title><b>{{p.firstname}} {{p.lastname}}</b></mat-panel-title>
+                <mat-panel-description>{{p.rut}}</mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <mat-divider></mat-divider>
+            <div class="patient-info-container">
+                <div class="left">
+                    <p><b>Fecha de Nacimiento:</b> {{p.birth_date | date}}</p>
+                    <p><b>Correo:</b> {{p.email}}</p>
+                    <p><b>Teléfono:</b> {{p.cellphone}}</p>
+                    <p><b>Citas Disponibles:</b> {{p.available_meets}}</p>
+                    <p><b>Sesiones Realizadas:</b> {{p.meet_counter}}</p>
+                    <p [ngSwitch]="p.status"><b>Estado: </b>
+                        <span *ngSwitchCase="in_treatment.tag"> {{in_treatment.label}}</span>
+                        <span *ngSwitchCase="done.tag"> {{done.label}}</span>
+                        <span *ngSwitchDefault>-</span>
+                    </p>
+                </div>
+                <!-- <div class="right">
+                    <p><button mat-raised-button color="">Abrir Sala de terapia</button></p>
+                    <p><button mat-raised-button color="">Abrir Chat</button></p>
+                    <p><button mat-raised-button color="warn">Cancelar Sesión</button></p>
+                </div> -->
+            </div>
+        </mat-expansion-panel>
+    </div>
+    <ng-template #emptyPatients>
+        <p class="empty-patients">Aún no tiene pacientes.</p>        
+    </ng-template>
+</mat-accordion>
+<ng-template #fetching>
+    <mat-progress-bar mode="query"></mat-progress-bar>
+</ng-template>

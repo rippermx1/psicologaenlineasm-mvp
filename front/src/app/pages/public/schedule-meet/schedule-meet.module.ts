@@ -6,6 +6,7 @@ import { PaymentErrorComponent } from './pages/payment-error/payment-error.compo
 import { PaymentConfirmComponent } from './pages/payment-confirm/payment-confirm.component';
 import { PaymentSuccessComponent } from './pages/payment-success/payment-success.component';
 import { ScheduleMeetComponent } from './pages/schedule-meet/schedule-meet.component';
+import { ScheduleMeetService } from './service/schedule-meet.service';
 
 
 
@@ -20,6 +21,9 @@ import { ScheduleMeetComponent } from './pages/schedule-meet/schedule-meet.compo
     CommonModule,
     SharedModule,
     ScheduleMeetRoutingModule
+  ],
+  providers: [
+    ScheduleMeetService
   ]
 })
 export class ScheduleMeetModule { }
