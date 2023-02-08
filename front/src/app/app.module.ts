@@ -19,7 +19,7 @@ import { environment } from '../environments/environment';
     AppRoutingModule,
     BrowserAnimationsModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
-    /* provideAuth(() => getAuth()), */
+    provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
   ],
   providers: [],

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { LoginService } from '../../service/login.service';
 
 @Component({
   selector: 'app-login',
@@ -7,15 +8,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  userForm: FormGroup;
-  specialistForm: FormGroup;
-  constructor() {
-    this.userForm = new FormGroup({
-      email: new FormControl('', [Validators.required, Validators.email]),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    });
-    this.specialistForm = new FormGroup({
-      rut: new FormControl('', [Validators.required]),
+  form: FormGroup;
+  
+  constructor(
+    private service: LoginService
+  ) {
+    this.form = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
     });
@@ -24,12 +22,16 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSubmit(userType: string) {
-    if (userType === 'user') {
-      console.log(this.userForm.value);
-    } else {
-      console.log(this.specialistForm.value);
-    }
+  onSubmit() {
+    const { email, password } = this.form.value;
+    this.service.login(email, password).subscribe(
+      (data) => {
+        console.log(data);
+      },
+      (error) => {
+        console.log(error);
+      }
+    )
   }
 
 }

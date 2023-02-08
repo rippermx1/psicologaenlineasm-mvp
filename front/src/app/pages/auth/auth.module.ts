@@ -8,6 +8,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { SpecialistRegisterComponent } from './pages/specialist-register/specialist-register.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { LoginService } from './service/login.service';
 
 
 @NgModule({
