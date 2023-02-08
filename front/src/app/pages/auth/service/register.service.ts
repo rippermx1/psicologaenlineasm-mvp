@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Auth } from '@angular/fire/auth';
 
 
 @Injectable({
@@ -7,12 +8,11 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-  constructor() { }
+  constructor(
+    private auth: Auth
+  ) { }
 
   registerUser(user: any): Observable<any> {
-    return new Observable((observer) => {
-      observer.next(user);
-      observer.complete();
-    });
+    return new Observable();
   }
 }
