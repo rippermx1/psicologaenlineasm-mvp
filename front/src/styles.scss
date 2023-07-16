@@ -1,4 +1,4 @@
-@import 'assets/styles/colors.scss';
+@import "assets/styles/colors.scss";
 
 $text-color-light: #fff;
 $alpha: 0.5;
@@ -6,36 +6,54 @@ $info-color-alpha: rgba(33, 150, 243, $alpha);
 $mat-card-padding: 1.5em;
 
 body {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #33a1e0;
 }
 
 .title {
-    text-align: center;
+  text-align: center;
 }
 
 .example-action-buttons {
-    padding-bottom: 20px;
+  padding-bottom: 20px;
 }
 
 .example-headers-align .mat-expansion-panel-header-title,
 .example-headers-align .mat-expansion-panel-header-description {
-    flex-basis: 0;
+  flex-basis: 0;
 }
 
 .example-headers-align .mat-expansion-panel-header-description {
-    justify-content: space-between;
-    align-items: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .example-headers-align .mat-form-field + .mat-form-field {
-    margin-left: 8px;
+  margin-left: 8px;
 }
 
 mat-chip {
-    max-width: 100px;
+  max-width: 100px;
 }
 
 .mat-standard-chip {
-    justify-content: center;
+  justify-content: center;
+}
+
+.m-1 {
+  margin: 1em;
+}
+.m-2 {
+  margin: 2em;
+}
+.m-3 {
+  margin: 3em;
+}
+.p-1 {
+  padding: 1em;
+}
+
+.center {
+  text-align: center;
 }

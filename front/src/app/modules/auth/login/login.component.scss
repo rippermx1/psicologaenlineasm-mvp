@@ -1,0 +1,39 @@
+mat-card {
+  padding: 0;
+  margin: 1em;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 1.5em;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  place-content: stretch center;
+}
+
+.spacaing {
+  text-align: center;
+  padding: 1em 0 .1em;
+}
+
+.example-radio-group {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.example-radio-button {
+  margin: 5px;
+}
+
+.divider{
+  width: 100%;
+}

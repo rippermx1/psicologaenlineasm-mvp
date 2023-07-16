@@ -1,0 +1,34 @@
+<mat-card>
+    <div class="container">
+        <h2 class="title">Iniciar Sesión</h2>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <mat-form-field>
+                <input matInput placeholder="Email" formControlName="email">
+                <mat-error *ngIf="emailControl.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field>
+                <input matInput [type]="hide ? 'password' : 'text'" placeholder="Contraseña" formControlName="password">
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                <mat-error *ngIf="passwordControl.invalid">{{getPasswordErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-radio-group formControlName="userType" class="example-radio-group">
+                <mat-radio-button class="example-radio-button" *ngFor="let u of userTypes" [value]="u.id">
+                    {{u.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+            <button type="submit" mat-raised-button color="primary" [disabled]="form.invalid || isLoading">
+                <span *ngIf="!isLoading; else loading">Acceder</span>
+                <ng-template #loading>
+                    <mat-spinner diameter="20"></mat-spinner>
+                </ng-template>
+            </button>
+        </form>
+        
+        <br>
+        <mat-divider class="divider"></mat-divider>
+        <div class="spacaing">¿Olvidaste tu <a routerLink="/auth/forgot-password">Contraseña</a>?</div>
+        <div class="spacaing">¿No tienes una cuenta? <a routerLink="/auth/register">Regístrate</a></div>
+    </div>
+</mat-card>

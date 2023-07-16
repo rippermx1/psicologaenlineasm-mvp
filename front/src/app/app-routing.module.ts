@@ -1,45 +1,28 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthGuard } from './guards/auth.guard';
+import { LoggedInGuard } from './guards/logged-in.guard';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'auth',
     pathMatch: 'full'
   },
   {
     path: 'auth',
-    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule),
+    // canActivate: [() => inject(LoggedInGuard).canActivate()]
   },
   {
-    path: 'home',
-    loadChildren: () => import('./pages/public/home/home.module').then(m => m.HomeModule)
-  },
-  {
-    path: 'schedule-meet',
-    loadChildren: () => import('./pages/public/schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
+    path: 'public',
+    loadChildren: () => import('./modules/public/public.module').then(m => m.PublicModule)
   }, 
   {
-    path: 'user',
-    loadChildren: () => import('./pages/private/patient-dashboard/patient-dashboard.module').then(m => m.PatientDashboardModule)
+    path: 'private',
+    loadChildren: () => import('./modules/private/private.module').then(m => m.PrivateModule),
+    canActivate: [() => inject(AuthGuard).canActivate()]
   },
-  {
-    path: 'specialist',
-    loadChildren: () => import('./pages/private/specialist-dashboard/specialist-dashboard.module').then(m => m.SpecialistDashboardModule)
-  }, 
-  
-  /* {
-    path: 'meet-room',
-    loadChildren: () => import('./pages/private/meet-room/meet-room.module').then(m => m.MeetRoomModule)
-  }, */
-  /* {
-    path:'enrollment',
-    loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)
-  },
-  {
-    path:'profile',
-    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule)
-  }, */
   {
     path: '**',
     redirectTo: ''

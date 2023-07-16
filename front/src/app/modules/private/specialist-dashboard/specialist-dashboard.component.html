@@ -1,0 +1,25 @@
+<mat-toolbar>
+    <button mat-icon-button aria-label="" (click)="drawer.toggle(); opened = !opened">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <img src="assets/svg/logo.svg" alt="" class="logo">
+    <button mat-icon-button class="favorite-icon" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar>
+
+<mat-drawer-container class="profile-drawer-container" autosize [hasBackdrop]="false">
+    <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="opened">
+        <mat-nav-list>
+            <mat-list-item *ngFor="let i of items">
+                <mat-icon matListIcon>{{i.icon}}</mat-icon>
+                <a matLine [routerLink]="i.path" (click)="opened = false">{{i.name}}</a>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <mat-drawer-content class="padding-base">
+        <router-outlet></router-outlet>
+    </mat-drawer-content>
+
+</mat-drawer-container>

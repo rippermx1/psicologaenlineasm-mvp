@@ -1,0 +1,28 @@
+@import '../../../../assets/styles/_colors.scss';
+$full-width: 100%;
+
+mat-card {
+    margin: 2em;
+    background: $base-color-light;
+}
+
+mat-card-title {
+    text-align: center;
+    font-size: 1.5em;
+    padding-bottom: 0.5em;
+}
+
+mat-form-field {
+    width: $full-width;
+}
+
+mat-card-content {
+    form {
+        padding: 0 0.6em 0 0.6em;
+    }
+}
+
+.access {
+    text-align: center;
+    padding: 0 0 1em 0;
+}
