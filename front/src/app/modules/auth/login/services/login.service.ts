@@ -5,8 +5,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   providedIn: 'root',
 })
 export class LoginService {
-  
-  get form() {
+
+  get form(): FormGroup {
     return new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [

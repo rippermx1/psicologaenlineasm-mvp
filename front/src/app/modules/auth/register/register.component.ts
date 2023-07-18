@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { RegisterService } from '../register/services/register.service';
+import { Router } from '@angular/router';
+import { Session } from 'src/app/session/adapter.session';
 
 @Component({
   selector: 'app-register',
@@ -9,26 +11,29 @@ import { RegisterService } from '../register/services/register.service';
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup;
+  session: Session = Session.instance;
+  isLoading = false;
+
   constructor(
-    private service: RegisterService
+    private service: RegisterService,
+    private router: Router
   ) { 
-    this.form = new FormGroup({
-      rut: new FormControl('', [Validators.required]),
-      firstname: new FormControl('', [Validators.required]),
-      lastname: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      cellphone: new FormControl('', [Validators.required, Validators.minLength(9)]),      
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      passwordConfirm: new FormControl('', [Validators.required, Validators.minLength(6)]),
-    });
+    this.form = this.service.form;
   }
 
   ngOnInit(): void {
   }
 
-  onSubmit() {
+  async onSubmit() {
+    this.isLoading = true;
     console.log(this.form.value);
-    this.service.registerUser(this.form.value).subscribe();
+    const { email, password } = this.form.value;
+    await this.service.createUser(this.form.value);
+    let resp = await this.service.registerUser(email, password);
+    console.log(resp);
+    this.session.user = resp.user;
+    this.isLoading = false;
+    this.router.navigate(['/private/specialist']);
   }
 
 }
