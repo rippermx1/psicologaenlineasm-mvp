@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 
 import { PublicRoutingModule } from './public-routing.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ScheduleMeetComponent } from './schedule/schedule-meet.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';
 import { PaymentErrorComponent } from './payment-error/payment-error.component';
 import { PaymentSuccessComponent } from './payment-success/payment-success.component';
-
+import { ScheduleMeetComponent } from './schedule-meet/schedule-meet.component';
 
 @NgModule({
   declarations: [
@@ -16,10 +15,6 @@ import { PaymentSuccessComponent } from './payment-success/payment-success.compo
     PaymentErrorComponent,
     PaymentSuccessComponent,
   ],
-  imports: [
-    CommonModule,
-    PublicRoutingModule,
-    SharedModule,
-  ]
+  imports: [CommonModule, PublicRoutingModule, SharedModule],
 })
-export class PublicModule { }
+export class PublicModule {}

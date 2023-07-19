@@ -1,29 +1,33 @@
 from pykhipu.client import Client
 from exceptions import KhipuGetBanksException
-from constants import PICTURE_URL, RETURN_URL, CANCEL_URL, CURRENCY_CLP
+from constants import RETURN_URL, CANCEL_URL, CURRENCY_CLP
 from firebase import FirebaseDatabase
 
 
 class PaymentMethod(object):
     pass
 
+
 class CryptoPaymentMethod(PaymentMethod):
     pass
+
 
 class BankPaymentMethod(PaymentMethod):
     pass
 
+
 class KhipuPayment(object):
     def __init__(self):
-        self.client = Client(receiver_id='433491', secret='86db469310a35b26a914514917915cf5db7fbd3c')
+        self.client = Client(receiver_id='433491',
+                             secret='86db469310a35b26a914514917915cf5db7fbd3c')
         self.db = FirebaseDatabase()
-        
-    def get_banks(self): 
+
+    def get_banks(self):
         try:
             banks_list = []
-            # BankItem = bank_id | name | message | min_amount | bank_type | parent 
+            # BankItem = bank_id | name | message | min_amount | bank_type | parent
             banks = self.client.banks.get().banks
-            return [ banks_list.append({'id': b.bank_id, 'name': b.name}) for b in banks]
+            return [banks_list.append({'id': b.bank_id, 'name': b.name}) for b in banks]
         except KhipuGetBanksException as e:
             print(e)
             return None
@@ -34,14 +38,14 @@ class KhipuPayment(object):
             print('create_payment')
             _payment = self.client.payments.post(
                 subject=payment['subject'],
-                currency=CURRENCY_CLP, 
+                currency=CURRENCY_CLP,
                 amount=payment['amount'],
                 transaction_id=transaction_id,
                 return_url=f'http://127.0.0.1:8001/payment/confirm?trx_id={transaction_id}',
                 cancel_url=f'http://127.0.0.1:8001/payment/error?trx_id={transaction_id}',
                 picture_url='https://images.deepai.org/machine-learning-models/0c7ba850aa2443d7b40f9a45d9c86d3f/text2imgthumb.jpeg',
                 body=payment['body']
-                )
+            )
             payment['payment_id'] = _payment.payment_id
             payment['payment_url'] = _payment.payment_url
             payment['status'] = None
@@ -56,7 +60,6 @@ class KhipuPayment(object):
             print(e)
             return None
 
-
     def get_payment(self, trx_id):
         try:
             payment = self.db.get_payment(trx_id)[0]
@@ -66,9 +69,9 @@ class KhipuPayment(object):
             print(e)
             return None
 
-
     def update_payment_status(self, payment):
         try:
-            self.db.update_payment_status(payment.payment_id, payment.status, payment.status_detail)
+            self.db.update_payment_status(
+                payment.payment_id, payment.status, payment.status_detail)
         except Exception as e:
             pass

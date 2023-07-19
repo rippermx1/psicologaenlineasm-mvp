@@ -6,7 +6,7 @@ import { LoggedInGuard } from './guards/logged-in.guard';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth',
+    redirectTo: 'public',
     pathMatch: 'full'
   },
   {

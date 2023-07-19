@@ -4,9 +4,10 @@ from firebase_admin import firestore
 from firebase_admin import auth
 from uuid import uuid4
 from datetime import datetime, date
-from utils import BLOCK_0, BLOCK_1, BLOCK_2, BLOCK_3, BLOCK_4, BLOCK_5, BLOCK_6, BLOCK_7, BLOCK_8, BLOCK_9, BLOCK_10, BLOCK_11
 
-app = firebase_admin.initialize_app(credentials.Certificate("./psicologaenlineasm-firebase.json"))
+app = firebase_admin.initialize_app(
+    credentials.Certificate("./psicologaenlineasm-firebase.json"))
+
 
 class FirebaseDatabase:
     def __init__(self):
@@ -15,22 +16,23 @@ class FirebaseDatabase:
 
     def add_payment(self, payment):
         print('add_payment', payment)
-        self.ref = self.db.collection(u'payments').document(payment['payment_id'])
+        self.ref = self.db.collection(
+            u'payments').document(payment['payment_id'])
         self.ref.set(payment)
-
 
     def get_payment(self, trx_id):
         print('get_payment', trx_id)
         self.ref = self.db.collection(u'payments')
-        query = self.ref.where("transaction_id", "==", trx_id)    
+        query = self.ref.where("transaction_id", "==", trx_id)
         return [doc.to_dict() for doc in query.stream()] if query else None
-
 
     def update_payment_status(self, payment_id, status, status_detail):
         print('update_payment_status', payment_id, status)
         self.ref = self.db.collection(u'payments').document(payment_id)
-        return self.ref.update({'status': status, 'status_detail': status_detail})
-
+        return self.ref.update({
+            'status': status,
+            'status_detail': status_detail
+        })
 
     def add_user(self, user):
         print('add_user', user.uid)
@@ -41,9 +43,8 @@ class FirebaseDatabase:
             "display_name": user.display_name,
             "phone_number": user.phone_number,
             "email_verified": user.email_verified,
-            "disabled": user.disabled,       
+            "disabled": user.disabled,
         })
-
 
     def get_user_by_email(self, email):
         print('get_user', email)
@@ -51,16 +52,16 @@ class FirebaseDatabase:
         query = self.ref.where("email", "==", email)
         return [doc.to_dict() for doc in query.stream()] if query else None
 
-
     ''' Use only for URGENCY.  Specialist can't be restored'''
+
     def delete_specialist(self, uuid: str):
         self.ref = self.db.collection(u'specialists').document(uuid)
         self.ref.delete()
 
-
     def set_default_schedule_days(self,):
         specialist_uuid = str(uuid4())
-        self.ref_specialist = self.db.collection(u'specialists').document(specialist_uuid)
+        self.ref_specialist = self.db.collection(
+            u'specialists').document(specialist_uuid)
         self.ref_specialist.set({
             "first_name": "Admin",
             "last_name": "Admin",
@@ -91,7 +92,8 @@ class FirebaseDatabase:
         })
 
         schedule_uuid = str(uuid4())
-        self.ref_schedule = self.db.collection(u'schedules').document(schedule_uuid)
+        self.ref_schedule = self.db.collection(
+            u'schedules').document(schedule_uuid)
         self.ref_schedule.set({
             "uuid": schedule_uuid,
             "specialist_uuid": specialist_uuid,
@@ -111,7 +113,7 @@ class FirebaseDatabase:
         })
 
         return specialist_uuid
-        
+
 
 class FirebaseAuth:
     def create_user(self, email, password):

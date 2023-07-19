@@ -8,12 +8,14 @@ from exceptions import ConfirmationPaymentException, SpecialistException, SetDef
 from uuid import uuid4
 from firebase import FirebaseAuth, FirebaseDatabase
 from datetime import datetime
+from logger import Logger
 
 
 payment = KhipuPayment()
 auth = FirebaseAuth()
 db = FirebaseDatabase()
 app = FastAPI()
+logger = Logger()
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,6 +24,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 @app.get("/")
 def read_root():
@@ -42,7 +45,7 @@ def comfirmation(request: PacientPaymentRequest):
     try:
         user = db.get_user_by_email(request.email)
         print(user)
-        
+
         if not user:
             user = auth.create_user(request.email, 'password')
             db.add_user(user)
@@ -52,7 +55,7 @@ def comfirmation(request: PacientPaymentRequest):
         else:
             user_email = user['email']
             user_uid = user['uid']
-        
+
         transaction_body['user_email'] = user_email
         transaction_body['user_id'] = user_uid
 
@@ -97,10 +100,26 @@ async def payment_status(request: PaymentTrxId):
         pass
 
 
+# Specialist Endpoints
+@app.get("/specialist/hours/available")
+async def get_specialist_available_hours(specialist_id: int, date: str):
+    try:
+        hours = db.get_specialist_available_hours(specialist_id, date)
+        return {
+            'status': 'success',
+            'hours': hours
+        }
+    except GetSpecialistScheduleException as e:
+        logger.log(e)
+        return {
+            'status': 'error',
+            'hours': []
+        }
+
 
 # Admin Settings Endpoints
 @app.get("/schedule/days/default")
-async def set_default_schedule_days():  
+async def set_default_schedule_days():
     try:
         uuid = db.set_default_schedule_days()
         return {

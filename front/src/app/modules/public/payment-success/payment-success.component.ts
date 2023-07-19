@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { PaymentDetails } from '../schedule/interfaces/payment-detail.interface';
+import { PaymentDetails } from '../schedule-meet/interfaces/payment-detail.interface';
+
 
 @Component({
   selector: 'app-payment-success',

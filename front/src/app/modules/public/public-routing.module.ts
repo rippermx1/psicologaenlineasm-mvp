@@ -1,24 +1,30 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ScheduleMeetComponent } from './schedule/schedule-meet.component';
 import { PaymentConfirmComponent } from './payment-confirm/payment-confirm.component';
+import { PaymentErrorComponent } from './payment-error/payment-error.component';
+import { PaymentSuccessComponent } from './payment-success/payment-success.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ScheduleMeetComponent
+    redirectTo: 'schedule',
+    pathMatch: 'full'
   },
   {
-    path: 'payment-confirm',
-    component: PaymentConfirmComponent
+    path: 'schedule',
+    loadChildren: () => import('./schedule-meet/schedule-meet.module').then(m => m.ScheduleMeetModule)
   },
   {
-    path: '',
-    component: ScheduleMeetComponent
+    path: 'payment/confirm',
+    loadChildren: () => import('./payment-confirm/payment-confirm.module').then(m => m.PaymentConfirmModule)
   },
   {
-    path: '',
-    component: ScheduleMeetComponent
+    path: 'payment/error',
+    loadChildren: () => import('./payment-error/payment-error.module').then(m => m.PaymentErrorModule)
+  },
+  {
+    path: 'payment/success',
+    loadChildren: () => import('./payment-success/payment-success.module').then(m => m.PaymentSuccessModule)
   }
 ];
 
