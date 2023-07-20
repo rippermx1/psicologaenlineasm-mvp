@@ -45,13 +45,21 @@
             <form [formGroup]="secondForm">
                 <mat-calendar [(selected)]="selectedDate" (selectedChange)="selectDate($event)"></mat-calendar>
                 <br>
-                <mat-label>Horas Disponibles para {{selectedDate | date}}</mat-label>
+                <mat-label>Horas Disponibles para: <strong>{{selectedDate | date:'dd-MM-yyyy'}}</strong></mat-label>
+                <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
                 <mat-chip-listbox aria-label="Hour Selection">
-                    <mat-chip *ngFor="let hour of availableHours$ | async">{{hour}}</mat-chip>                       
+                    <ng-container *ngIf="availableHours.length; else empty">
+                        <mat-chip-option *ngFor="let hour of availableHours" (selectionChange)="selectHour(hour, $event)">
+                            <span>{{hour.value}}</span>
+                        </mat-chip-option>
+                    </ng-container>
+                    <ng-template #empty>
+                        <mat-chip>No hay horas disponibles.</mat-chip>
+                    </ng-template>
                 </mat-chip-listbox>
                 <br>
                 <button mat-button matStepperPrevious>Volver</button>
-                <button mat-button matStepperNext>Continuar</button>
+                <button mat-button matStepperNext [disabled]="!isSelectedHour">Continuar</button>
             </form>        
             </ng-template>
         </mat-step>
@@ -59,14 +67,12 @@
             <ng-template matStepLabel>Resumen</ng-template>
             <ng-template matStepContent>
                 <form [formGroup]="thirdForm">
-                    <p></p>
+                    <p>Has seleccionado una cita para el día <strong>{{ selectedDate | date:'dd-MM-yyyy' }}</strong> a las <strong>{{ selectedHour }}</strong>.</p>
                     <br>
-    
+                    <p>El valor de la sesión es de: <b>$14.990</b></p>
+                    <br>
                     <mat-checkbox formControlName="termsControl" required>Acepto los <a href="#">T&eacute;rminos y Condiciones</a></mat-checkbox>
                     <mat-error *ngIf="thirdForm.controls['termsControl'].invalid">{{getErrorMessage()}}</mat-error>
-                    <br>
-                    
-                    <p>El valor de la sesión es de: <b>$14.990</b></p>
                     <br>
                     <button mat-button (click)="createPayment()">Pagar</button>
                 </form>

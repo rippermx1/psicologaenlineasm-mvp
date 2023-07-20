@@ -19,5 +19,8 @@ export interface PacientPaymentRequest {
     email?: string;
     cellphone?: string;
     age?: number;
-    planId? : string;    
+    planId? : string;
+    userId?: string;
+    meetDate?: string;
+    meetTime?: string;
 }

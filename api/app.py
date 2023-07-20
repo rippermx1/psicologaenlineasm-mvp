@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from fastapi import Request
-from models import PacientPaymentRequest, PaymentTrxId, BlockCreateRequest, BlockUpdateRequest
+from models import PatientPaymentRequest, PaymentTrxId, BlockCreateRequest, BlockUpdateRequest, SpecialistAvailableHoursRequest
 from payment import KhipuPayment
 from exceptions import ConfirmationPaymentException, SpecialistException, SetDefaultScheduleDaysException, GetSpecialistScheduleException
 from uuid import uuid4
@@ -32,34 +32,30 @@ def read_root():
 
 
 @app.post("/payment/create")
-def comfirmation(request: PacientPaymentRequest):
-    user_email = None
-    user_uid = None
-    transaction_id = str(uuid4())
-    transaction_body = {
-        'subject': 'plan name',
-        'amount': 10500,
-        'transaction_id': transaction_id,
-        'body': 'Descripción de la compra'
-    }
+def comfirmation(request: PatientPaymentRequest):
+    print(dict(request))
+
+    id = None
+    patient = None
     try:
-        user = db.get_user_by_email(request.email)
-        print(user)
+        patient = db.get_patient_by_email(request.email)
+        patient = patient[0] if patient else None
+        print("41", patient)
 
-        if not user:
-            user = auth.create_user(request.email, 'password')
-            db.add_user(user)
-            print(user)
-            user_email = user.email
-            user_uid = user.uid
-        else:
-            user_email = user['email']
-            user_uid = user['uid']
+        if not patient:
+            # user = auth.create_user(request.email, 'password')
+            # print(user)
+            id = db.create_patient(request)
+            print(id)
 
-        transaction_body['user_email'] = user_email
-        transaction_body['user_id'] = user_uid
-
-        payment_url = payment.create_payment(transaction_body)
+        payment_url = payment.create_payment({
+            'subject': 'Terapia psicológica',
+            'amount': 14990,
+            'id': str(uuid4()),
+            'body': 'Sesión de terapia psicológica online',
+            'user_email': request if not patient else patient[1]['email'],
+            'user_id': id if not patient else patient[0]
+        })
         print(payment_url)
         return {'payment_url': payment_url}
     except ConfirmationPaymentException as e:
@@ -101,10 +97,14 @@ async def payment_status(request: PaymentTrxId):
 
 
 # Specialist Endpoints
-@app.get("/specialist/hours/available")
-async def get_specialist_available_hours(specialist_id: int, date: str):
+@app.post("/specialist/hours/available")
+async def get_specialist_available_hours(
+        request: SpecialistAvailableHoursRequest):
     try:
-        hours = db.get_specialist_available_hours(specialist_id, date)
+        hours = db.get_specialist_available_hours(
+            request.user_id,
+            request.date
+        )
         return {
             'status': 'success',
             'hours': hours

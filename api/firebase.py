@@ -14,6 +14,12 @@ class FirebaseDatabase:
         self.db = firestore.client(app)
         self.ref = None
 
+    def get_specialist_available_hours(self, user_id: str, date: str):
+        self.ref = self.db.collection(u'users').document(user_id)
+        schedule = self.ref.collection(u'schedule').document(date).get()
+        return list(schedule.to_dict()
+                    .values()) if schedule.to_dict() else []
+
     def add_payment(self, payment):
         print('add_payment', payment)
         self.ref = self.db.collection(
@@ -34,6 +40,24 @@ class FirebaseDatabase:
             'status_detail': status_detail
         })
 
+    def create_patient_payment(self, payment):
+        self.ref = self.db.collection(u'patients').document(payment['user_id'])
+        _, doc = self.ref.collection(u'payments').add(payment)
+        print('create_patient_payment', doc.id)
+
+    def create_patient(self, patient):
+        self.ref = self.db.collection(u'patients')
+        _, doc = self.ref.add({
+            "age": patient.age,
+            "rut": patient.rut,
+            "email": patient.email,
+            "cellphone": patient.cellphone,
+            "firstName": patient.firstName,
+            "lastName": patient.lastName
+        })
+        print('create_patient', doc.id)
+        return doc.id
+
     def add_user(self, user):
         print('add_user', user.uid)
         self.ref = self.db.collection(u'users').document(user.uid)
@@ -45,6 +69,13 @@ class FirebaseDatabase:
             "email_verified": user.email_verified,
             "disabled": user.disabled,
         })
+
+    def get_patient_by_email(self, email):
+        self.ref = self.db.collection(u'patients')
+        query = self.ref.where("email", "==", email)
+        return [
+            (doc.id, doc.to_dict()) for doc in query.stream()
+        ] if query else None
 
     def get_user_by_email(self, email):
         print('get_user', email)
@@ -117,12 +148,11 @@ class FirebaseDatabase:
 
 class FirebaseAuth:
     def create_user(self, email, password):
-        password = 'password'
-
         try:
             user = auth.create_user(
                 email=email,
                 password=password,
+                display_name='Patient',
                 app=app
             )
             print('Successfully created new user:', user.uid)

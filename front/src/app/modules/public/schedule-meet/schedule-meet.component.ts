@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
 import { PacientPaymentRequest } from './interfaces/pacient.interface';
 import { ScheduleMeetService } from './service/schedule-meet.service';
 import { DEFAULT_USER_ID } from './constants/schedule-meet.constants';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { AvailableHours } from './interfaces/available-hours.interface';
 
 @Component({
   selector: 'app-schedule-meet',
@@ -16,12 +16,11 @@ export class ScheduleMeetComponent implements OnInit {
   thirdForm: FormGroup = new FormGroup({});
   selectedDate: Date = new Date();
   pacientPayment: PacientPaymentRequest = {};
-  availableHours$: Observable<string[]> = of([
-    '09:00 AM',
-    '10:00 AM',
-    '11:00 AM',
-  ]);
+  availableHours: AvailableHours[] = [];
+  selectedHour: String = new String();
+  isSelectedHour: boolean = false;
   defaultUserId = DEFAULT_USER_ID;
+  isLoading: boolean = false;
 
   constructor(private service: ScheduleMeetService) {}
 
@@ -30,16 +29,38 @@ export class ScheduleMeetComponent implements OnInit {
     this.secondForm = this.service.secondForm;
     this.thirdForm = this.service.thirdForm;
 
-    // this.availableHours$ = this._service.getAvailableHours(this.selectedDate);
+    this.getAvailableHours();
+  }
+
+  getAvailableHours() {
+    this.isLoading = true;
+    this.availableHours = [];
+    this.service
+      .getAvailableHours(this.defaultUserId, this.selectedDate)
+      .subscribe({
+        next: (data) => {
+          console.log(data);
+          this.availableHours = data?.hours;
+          this.isLoading = false;
+        },
+        error: (err) => {
+          console.log(err);
+          this.isLoading = false;
+        },
+      });
   }
 
   selectDate(date: Date) {
     console.log(date);
+    this.isSelectedHour = false;
     this.selectedDate = date;
-    this.availableHours$ = this.service.getAvailableHours(
-      this.defaultUserId,
-      this.selectedDate
-    );
+    this.getAvailableHours();
+  }
+
+  selectHour(hour: AvailableHours, event: any) {
+    this.selectedHour = hour.value;
+    this.isSelectedHour = event.selected;
+    console.log(hour, event);
   }
 
   onSubmit() {}
@@ -52,9 +73,14 @@ export class ScheduleMeetComponent implements OnInit {
   }
 
   createPayment() {
-    this.pacientPayment = this.firstForm.getRawValue() as PacientPaymentRequest;
+    this.pacientPayment = {
+      ...this.firstForm.getRawValue(),
+      meetDate: this.selectedDate,
+      meetTime: this.selectedHour,
+      userId: this.defaultUserId,
+    };
     console.log(this.pacientPayment);
-    this.selectedDate = new Date();
+    
     this.service.createPayment(this.pacientPayment).subscribe((data) => {
       window.location.href = data.payment_url;
     });

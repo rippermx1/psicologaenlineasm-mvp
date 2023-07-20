@@ -32,30 +32,28 @@ class KhipuPayment(object):
             print(e)
             return None
 
-    def create_payment(self, payment):
-        transaction_id = payment['transaction_id']
+    def create_payment(self, trx):
+        print(trx)
+        id = trx['id']
         try:
             print('create_payment')
-            _payment = self.client.payments.post(
-                subject=payment['subject'],
+            payment = self.client.payments.post(
+                subject=trx['subject'],
                 currency=CURRENCY_CLP,
-                amount=payment['amount'],
-                transaction_id=transaction_id,
-                return_url=f'http://127.0.0.1:8001/payment/confirm?trx_id={transaction_id}',
-                cancel_url=f'http://127.0.0.1:8001/payment/error?trx_id={transaction_id}',
+                amount=trx['amount'],
+                transaction_id=id,
+                return_url=f'http://127.0.0.1:8001/payment/confirm?trx_id={id}',
+                cancel_url=f'http://127.0.0.1:8001/payment/error?trx_id={id}',
                 picture_url='https://images.deepai.org/machine-learning-models/0c7ba850aa2443d7b40f9a45d9c86d3f/text2imgthumb.jpeg',
-                body=payment['body']
+                body=trx['body']
             )
-            payment['payment_id'] = _payment.payment_id
-            payment['payment_url'] = _payment.payment_url
-            payment['status'] = None
-            payment['status_detail'] = None
-            # TO DO: Insert Mongo DB
-            # get plan by id
-            # get price plan's
-            # database.payment.insert(email, transaction_id, plan_id, date, amount,)
-            self.db.add_payment(payment)
-            return _payment.payment_url
+            trx['payment_id'] = payment.payment_id
+            trx['payment_url'] = payment.payment_url
+            trx['status'] = None
+            trx['status_detail'] = None
+
+            self.db.create_patient_payment(trx)
+            return payment.payment_url
         except Exception as e:
             print(e)
             return None

@@ -7,13 +7,14 @@ import { PaymentUrlResponse } from '../interfaces/payment-url-response.interface
 import { PaymentResponse } from '../interfaces/payment-response.interface';
 import { Observable, repeat, skipWhile, take, map } from 'rxjs';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { RutValidator } from 'src/app/shared/validators/rut.validator';
+import { DatePipe } from '@angular/common';
+import { AvailableHoursResponse } from '../interfaces/available-hours.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ScheduleMeetService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private datePipe: DatePipe) {}
 
   public get firstForm(): FormGroup {
     return new FormGroup({
@@ -56,10 +57,10 @@ export class ScheduleMeetService {
   }
 
   createPayment(
-    pacient: PacientPaymentRequest
+    body: PacientPaymentRequest
   ): Observable<PaymentUrlResponse> {
     const endpoint = `${environment.api_url}${payment.create}`;
-    return this.http.post<PaymentUrlResponse>(endpoint, pacient).pipe(
+    return this.http.post<PaymentUrlResponse>(endpoint, body).pipe(
       map((response: PaymentUrlResponse) => {
         return response;
       })
@@ -75,8 +76,14 @@ export class ScheduleMeetService {
     );
   }
 
-  getAvailableHours(userId: string, date: Date): Observable<string[]> {
+  getAvailableHours(
+    userId: string,
+    date: Date
+  ): Observable<AvailableHoursResponse> {
     const endpoint = `${environment.api_url}${specialist.availableHours}`;
-    return this.http.post<string[]>(endpoint, { userId, date });
+    return this.http.post<AvailableHoursResponse>(endpoint, {
+      user_id: userId,
+      date: this.datePipe.transform(date, 'yyyy-MM-dd'),
+    });
   }
 }

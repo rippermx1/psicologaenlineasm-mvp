@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 
 
-class PacientPaymentRequest(BaseModel):
+class PatientPaymentRequest(BaseModel):
     firstName: str
     lastName: str
     email: str
     cellphone: str
     age: str
+    meetDate: str
+    meetTime: str
+    userId: str
+    rut: str
 
 
 class BlockCreateRequest(BaseModel):
@@ -49,3 +53,8 @@ class SpecialistSchedule(BaseModel):
     start: str
     end: str
     available: bool
+
+
+class SpecialistAvailableHoursRequest(BaseModel):
+    user_id: str
+    date: str

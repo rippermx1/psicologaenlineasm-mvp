@@ -5,5 +5,5 @@ export const payment = {
 }
 
 export const specialist = {
-    availableHours: '/specialist/available-hours',
+    availableHours: '/specialist/hours/available',
 }
