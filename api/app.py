@@ -9,6 +9,7 @@ from uuid import uuid4
 from firebase import FirebaseAuth, FirebaseDatabase
 from datetime import datetime
 from logger import Logger
+from constants import FRONT_URL
 
 
 payment = KhipuPayment()
@@ -53,31 +54,42 @@ def comfirmation(request: PatientPaymentRequest):
             'amount': 14990,
             'id': str(uuid4()),
             'body': 'Sesión de terapia psicológica online',
-            'user_email': request if not patient else patient[1]['email'],
+            'user_email': (id, request) if not patient else patient[1]['email'],
             'user_id': id if not patient else patient[0]
         })
         print(payment_url)
         return {'payment_url': payment_url}
     except ConfirmationPaymentException as e:
         print(e)
-        return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
+        return RedirectResponse(
+            f'{FRONT_URL}schedule-meet/payment/error',
+            status_code=302)
 
 
 @app.get("/payment/confirm")
 async def confirm_payment(request: Request):
     trx_id = request.query_params.get('trx_id')
+    user_id = request.query_params.get('user_id')
     try:
-        return RedirectResponse(f'http://localhost:4200/schedule-meet/payment/confirm?trx_id={trx_id}', status_code=302)
+        return RedirectResponse(
+            f'{FRONT_URL}public/payment/confirm?trx_id={trx_id}',
+            status_code=302)
     except ConfirmationPaymentException as e:
         print(e)
-        return RedirectResponse('http://localhost:4200/schedule-meet/payment/error', status_code=302)
+        return RedirectResponse(
+            f'{FRONT_URL}public/payment/error',
+            status_code=302)
 
 
 @app.get("/payment/error")
-async def confirm_payment(request: Request):
+async def error_payment(request: Request):
     trx_id = request.query_params.get('trx_id')
-    print(await request.body())
-    return RedirectResponse(f'http://localhost:4200/schedule-meet/payment/error?trx_id={trx_id}', status_code=302)
+    user_id = request.query_params.get('user_id')
+    trx = payment.get_payment(trx_id, user_id)
+    print('trx', trx.status, trx.status_detail)
+    return RedirectResponse(
+        f'{FRONT_URL}public/payment/error?trx_id={trx_id}',
+        status_code=302)
 
 
 @app.post("/payment/status")

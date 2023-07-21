@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PaymentErrorRoutingModule } from './payment-error-routing.module';
-import { PublicModule } from '../public.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -10,7 +10,7 @@ import { PublicModule } from '../public.module';
   imports: [
     CommonModule,
     PaymentErrorRoutingModule,
-    PublicModule
+    SharedModule
   ]
 })
 export class PaymentErrorModule { }

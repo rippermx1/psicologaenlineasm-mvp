@@ -26,11 +26,16 @@ class FirebaseDatabase:
             u'payments').document(payment['payment_id'])
         self.ref.set(payment)
 
-    def get_payment(self, trx_id):
-        print('get_payment', trx_id)
-        self.ref = self.db.collection(u'payments')
-        query = self.ref.where("transaction_id", "==", trx_id)
-        return [doc.to_dict() for doc in query.stream()] if query else None
+    def get_payment(self, trx_id, user_id):
+        print('get_payment', trx_id, user_id)
+        self.ref = self.db.collection(u'patients').document(user_id)
+        payment = self.ref.collection(u'payments').document(trx_id).get()
+        print(payment.to_dict())
+        return payment.to_dict() if payment else None
+
+    def update_payment(self, id, trx):
+        self.ref = self.db.collection(u'patients').document(trx['user_id'])
+        self.ref.collection(u'payments').document(id).update(trx)
 
     def update_payment_status(self, payment_id, status, status_detail):
         print('update_payment_status', payment_id, status)
@@ -44,6 +49,7 @@ class FirebaseDatabase:
         self.ref = self.db.collection(u'patients').document(payment['user_id'])
         _, doc = self.ref.collection(u'payments').add(payment)
         print('create_patient_payment', doc.id)
+        return doc.id
 
     def create_patient(self, patient):
         self.ref = self.db.collection(u'patients')

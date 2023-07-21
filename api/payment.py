@@ -1,6 +1,6 @@
 from pykhipu.client import Client
 from exceptions import KhipuGetBanksException
-from constants import RETURN_URL, CANCEL_URL, CURRENCY_CLP
+from constants import RETURN_URL, CANCEL_URL, CURRENCY_CLP, API_URL
 from firebase import FirebaseDatabase
 
 
@@ -32,18 +32,21 @@ class KhipuPayment(object):
             print(e)
             return None
 
+    def get_status(self, trx_id):
+        return self.client.payments.get_id(trx_id)
+
     def create_payment(self, trx):
         print(trx)
-        id = trx['id']
         try:
             print('create_payment')
+            id = self.db.create_patient_payment(trx)
             payment = self.client.payments.post(
                 subject=trx['subject'],
                 currency=CURRENCY_CLP,
                 amount=trx['amount'],
                 transaction_id=id,
-                return_url=f'http://127.0.0.1:8001/payment/confirm?trx_id={id}',
-                cancel_url=f'http://127.0.0.1:8001/payment/error?trx_id={id}',
+                return_url=f'{API_URL}/payment/confirm?trx_id={id}&user_id={trx["user_id"]}',
+                cancel_url=f'{API_URL}/payment/error?trx_id={id}&user_id={trx["user_id"]}',
                 picture_url='https://images.deepai.org/machine-learning-models/0c7ba850aa2443d7b40f9a45d9c86d3f/text2imgthumb.jpeg',
                 body=trx['body']
             )
@@ -51,16 +54,16 @@ class KhipuPayment(object):
             trx['payment_url'] = payment.payment_url
             trx['status'] = None
             trx['status_detail'] = None
+            self.db.update_payment(id, trx)
 
-            self.db.create_patient_payment(trx)
             return payment.payment_url
         except Exception as e:
             print(e)
             return None
 
-    def get_payment(self, trx_id):
+    def get_payment(self, trx_id, user_id):
         try:
-            payment = self.db.get_payment(trx_id)[0]
+            payment = self.db.get_payment(trx_id, user_id)
             print('get_payment', payment)
             return self.client.payments.get_id(payment['payment_id'])
         except Exception as e:
