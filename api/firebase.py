@@ -33,9 +33,11 @@ class FirebaseDatabase:
         print(payment.to_dict())
         return payment.to_dict() if payment else None
 
-    def update_payment(self, id, trx):
-        self.ref = self.db.collection(u'patients').document(trx['user_id'])
-        self.ref.collection(u'payments').document(id).update(trx)
+    def update_payment(self, id, data):
+        self.ref = self.db.collection(u'patients').document(data['user_id'])
+        self.ref.collection(u'payments').document(id).update(data)
+        doc = self.ref.collection(u'payments').document(id).get()
+        return doc.to_dict()
 
     def update_payment_status(self, payment_id, status, status_detail):
         print('update_payment_status', payment_id, status)
@@ -61,8 +63,8 @@ class FirebaseDatabase:
             "firstName": patient.firstName,
             "lastName": patient.lastName
         })
-        print('create_patient', doc.id)
-        return doc.id
+        print('firebase:create_patient', doc.id, doc.get().to_dict())
+        return (doc.id, doc.get().to_dict()) if doc else None
 
     def add_user(self, user):
         print('add_user', user.uid)
@@ -76,12 +78,15 @@ class FirebaseDatabase:
             "disabled": user.disabled,
         })
 
+    def get_patient(self, id):
+        self.ref = self.db.collection(u'patients').document(id)
+        return self.ref.get().to_dict()
+
     def get_patient_by_email(self, email):
         self.ref = self.db.collection(u'patients')
         query = self.ref.where("email", "==", email)
-        return [
-            (doc.id, doc.to_dict()) for doc in query.stream()
-        ] if query else None
+        for doc in query.stream():
+            return (doc.id, doc.to_dict()) if query else None
 
     def get_user_by_email(self, email):
         print('get_user', email)

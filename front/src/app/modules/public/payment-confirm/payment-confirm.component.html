@@ -1,8 +1,12 @@
-<div>
-    <h2>¡Bien!</h2>
-</div>
-<div>
+<mat-card class="m-2">
+  <mat-card-header>
+    <mat-card-title>
+      <h2 class="title">¡Bien!</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
     <p>Su pago se esta en proceso de verificación...</p>
     <p>Por favor, espere un momento.</p>
     <mat-spinner *ngIf="pending"></mat-spinner>
-</div>
+  </mat-card-content>
+</mat-card>

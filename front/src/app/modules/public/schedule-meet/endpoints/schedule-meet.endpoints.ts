@@ -1,7 +1,8 @@
 export const payment = {
     create: '/payment/create',
     confirmation: '/payment/confirm',
-    status: '/payment/status'
+    status: '/payment/status',
+    trx: '/payment/trx'
 }
 
 export const specialist = {

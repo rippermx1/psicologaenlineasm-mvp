@@ -56,9 +56,7 @@ export class ScheduleMeetService {
     });
   }
 
-  createPayment(
-    body: PacientPaymentRequest
-  ): Observable<PaymentUrlResponse> {
+  createPayment(body: PacientPaymentRequest): Observable<PaymentUrlResponse> {
     const endpoint = `${environment.api_url}${payment.create}`;
     return this.http.post<PaymentUrlResponse>(endpoint, body).pipe(
       map((response: PaymentUrlResponse) => {
@@ -67,13 +65,14 @@ export class ScheduleMeetService {
     );
   }
 
-  getPayment(trxId: string): Observable<PaymentResponse> {
-    const endpoint = `${environment.api_url}${payment.status}`;
-    return this.http.post<PaymentResponse>(endpoint, { trx_id: trxId }).pipe(
+  getPayment(trx_id: string, user_id: string): Observable<PaymentResponse> {
+    const endpoint = `${environment.api_url}${payment.trx}`;
+    return this.http.post<PaymentResponse>(endpoint, { trx_id, user_id });
+    /* .pipe(
       repeat({ delay: 1000 }),
       skipWhile((response) => response.status !== 'done'),
       take(1)
-    );
+    ); */
   }
 
   getAvailableHours(

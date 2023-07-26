@@ -26,6 +26,7 @@ class BlockUpdateRequest(BaseModel):
 
 class PaymentTrxId(BaseModel):
     trx_id: str
+    user_id: str
 
 
 #

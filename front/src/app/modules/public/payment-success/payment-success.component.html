@@ -1,12 +1,14 @@
-<h2>¡Pago Exitoso!</h2>
-
-<mat-card>
-    <mat-card-title>Detalle del Pago:</mat-card-title>
-    <mat-card-content>
-        <p>Amount: {{ paymentDetails.amount }}</p>
-        <p>Date: {{ paymentDetails.date | date }}</p>
-        <p>Payment Method: {{ paymentDetails.paymentMethod }}</p>
-    </mat-card-content>
+<mat-card class="m-2">
+  <mat-card-title>
+    <h2 class="title">¡Pago Exitoso!</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <h3>Detalle del Pago:</h3>
+    <p>Amount: {{ paymentDetails.amount }}</p>
+    <p>Date: {{ paymentDetails.date | date }}</p>
+    <p>Payment Method: {{ paymentDetails.paymentMethod }}</p>
+    {{patient$ | async | json}}
+  </mat-card-content>
 </mat-card>
 
 <button mat-raised-button [routerLink]="userProfileUrl">Ir a mi Perfil</button>
