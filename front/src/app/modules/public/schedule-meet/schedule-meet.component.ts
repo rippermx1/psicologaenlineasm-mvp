@@ -63,8 +63,6 @@ export class ScheduleMeetComponent implements OnInit {
     console.log(hour, event);
   }
 
-  onSubmit() {}
-
   getErrorMessage() {
     if (this.thirdForm.controls['termsControl'].hasError('required')) {
       return 'You must accept the terms and conditions';

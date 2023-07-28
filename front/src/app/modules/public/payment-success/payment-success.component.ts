@@ -4,6 +4,7 @@ import { PaymentSuccessService } from './services/paymemt-success.service';
 import { Subscription } from 'rxjs';
 import { Patient } from './interfaces/patient.interface';
 import { Observable } from 'rxjs';
+import { PaymentResponse } from './interfaces/payment-response';
 
 @Component({
   selector: 'app-payment-success',
@@ -12,9 +13,9 @@ import { Observable } from 'rxjs';
 })
 export class PaymentSuccessComponent implements OnInit {
   patient$: Observable<Patient> = new Observable();
-
+  payment$: Observable<PaymentResponse> = new Observable();
   paymentDetails: PaymentDetails = {};
-  userProfileUrl: string = '/user-profile';
+
   constructor(private readonly service: PaymentSuccessService) {}
 
   ngOnInit(): void {
@@ -22,7 +23,17 @@ export class PaymentSuccessComponent implements OnInit {
     this.paymentDetails.date = new Date();
     this.paymentDetails.paymentMethod = 'Credit Card';
 
-    this.patient$ = this.service.getPatient(sessionStorage.getItem('user_id')??'');
+    const userId = sessionStorage.getItem('user_id') ?? '';
+    const trxId = sessionStorage.getItem('trx_id') ?? '';
 
+    this.patient$ = this.service.getPatient(userId);
+    this.patient$.subscribe((patient) => {
+      sessionStorage.setItem('patient', JSON.stringify(patient));
+    });
+
+    this.payment$ = this.service.getPayment(trxId, userId);
+    this.service.getPayment(trxId, userId).subscribe((response) => {
+      console.log(response);
+    });
   }
 }

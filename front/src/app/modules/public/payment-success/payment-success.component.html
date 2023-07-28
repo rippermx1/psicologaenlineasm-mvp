@@ -3,12 +3,12 @@
     <h2 class="title">¡Pago Exitoso!</h2>
   </mat-card-title>
   <mat-card-content>
-    <h3>Detalle del Pago:</h3>
-    <p>Amount: {{ paymentDetails.amount }}</p>
-    <p>Date: {{ paymentDetails.date | date }}</p>
-    <p>Payment Method: {{ paymentDetails.paymentMethod }}</p>
-    {{patient$ | async | json}}
+    <p>{{ (patient$ | async)?.firstName }} {{ (patient$ | async)?.lastName }} a continuación podras ver el detalle de tu pago</p>
+    <p>Detalle del Pago: {{ (payment$ | async)?.subject }}</p>
+    <p>Descripción: {{ (payment$ | async)?.body }}</p>
+    <p>Precio: {{ (payment$ | async)?.amount | currency }}</p>
+    <p>Comprobante: <a>{{ (payment$ | async)?.payment_url }}</a></p>
   </mat-card-content>
 </mat-card>
 
-<button mat-raised-button [routerLink]="userProfileUrl">Ir a mi Perfil</button>
+<button mat-raised-button [routerLink]="">Ir a mi Perfil</button>

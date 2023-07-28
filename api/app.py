@@ -117,6 +117,18 @@ async def get_payment(request: PaymentTrxId):
         }
 
 
+@app.post("/payment/trx/db")
+async def get_payment_db(request: PaymentTrxId):
+    trx_id = request.trx_id
+    user_id = request.user_id
+    try:
+        trx = db.get_payment(trx_id, user_id)
+        return trx
+    except ConfirmationPaymentException as e:
+        print(e)
+        return {}
+
+
 # May be deprecated
 @app.post("/payment/status")
 async def payment_status(request: PaymentTrxId):

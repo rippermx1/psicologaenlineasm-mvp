@@ -1,10 +1,13 @@
 export const payment = {
-    create: '/payment/create',
-    confirmation: '/payment/confirm',
-    status: '/payment/status',
-    trx: '/payment/trx'
-}
+  create: '/payment/create',
+  confirmation: '/payment/confirm',
+  status: '/payment/status'
+};
+
+export const patient = {
+  create: '/patient',
+};
 
 export const specialist = {
-    availableHours: '/specialist/hours/available',
-}
+  availableHours: '/specialist/hours/available',
+};

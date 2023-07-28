@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ScheduleMeetService } from '../schedule-meet/service/schedule-meet.service';
+import { PaymentConfirmService } from './services/payment-confirm.service';
+import { Observable } from 'rxjs';
+import { Patient } from './interfaces/patient-response';
 
 @Component({
   selector: 'app-payment-confirm',
@@ -8,21 +10,27 @@ import { ScheduleMeetService } from '../schedule-meet/service/schedule-meet.serv
   styleUrls: ['./payment-confirm.component.sass'],
 })
 export class PaymentConfirmComponent implements OnInit {
-  // $getPayment: Observable = new Observable();
   pending: boolean = true;
+  trxId: string = '';
+  userId: string = '';
+  patient$: Observable<Patient> = new Observable();
+
   constructor(
-    private service: ScheduleMeetService,
+    private service: PaymentConfirmService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    const trx_id = this.getQueryParam('trx_id');
-    const user_id = this.getQueryParam('user_id');
-    sessionStorage.setItem('trx_id', trx_id??'');
-    sessionStorage.setItem('user_id', user_id??'');
+    this.trxId = this.getQueryParam('trx_id') ?? '';
+    this.userId = this.getQueryParam('user_id') ?? '';
+
+    sessionStorage.setItem('trx_id', this.trxId);
+    sessionStorage.setItem('user_id', this.userId);
+
+    this.patient$ = this.service.getPatient(this.userId);
     
-    this.service.getPayment(trx_id??'', user_id??'').subscribe((response) => {
+    this.service.getPayment(this.trxId, this.userId).subscribe((response) => {
       console.log(response);
       if (response.status == 'done') {
         this.pending = false;
