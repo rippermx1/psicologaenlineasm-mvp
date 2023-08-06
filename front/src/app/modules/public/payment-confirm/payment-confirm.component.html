@@ -1,12 +1,10 @@
 <mat-card class="m-2">
-  <mat-card-header>
-    <mat-card-title>
-      <h2 class="title">¡Bien {{ (patient$ | async)?.firstName }} {{ (patient$ | async)?.lastName }}!</h2>
-    </mat-card-title>
-  </mat-card-header>
+  <mat-card-title>
+    <p class="text-center m-0"><mat-icon fontIcon="pending" class="icon-base payment-confirm-icon"></mat-icon></p>
+    <h2 class="text-center">Por favor, espera un momento</h2>
+  </mat-card-title>
   <mat-card-content>
-    <p>Tu pago {{ trxId }} esta en proceso de verificación...</p>
-    <p>Por favor, espera un momento.</p>
-    <mat-spinner *ngIf="pending"></mat-spinner>
+    <p class="text-center">Tu pago esta en proceso de verificación...</p>
+    <p class="v-align"><mat-spinner *ngIf="pending" [diameter]="70"></mat-spinner></p>
   </mat-card-content>
 </mat-card>

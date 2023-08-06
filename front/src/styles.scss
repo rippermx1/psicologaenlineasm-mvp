@@ -41,6 +41,10 @@ mat-chip {
   justify-content: center;
 }
 
+.m-0 {
+  margin: 0 !important;
+}
+
 .m-1 {
   margin: 1em;
 }
@@ -54,6 +58,17 @@ mat-chip {
   padding: 1em;
 }
 
-.center {
+.text-center {
   text-align: center;
+}
+
+.icon-base {
+  font-size: 45px !important;
+  width: 45px !important;
+  height: 45px !important;
+}
+
+.v-align {
+  display: flex;
+  justify-content: center;
 }

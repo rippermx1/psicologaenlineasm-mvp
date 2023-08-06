@@ -1,14 +1,16 @@
 <mat-card class="m-2">
   <mat-card-title>
+    <p class="text-center m-0"><mat-icon fontIcon="check_circle" class="icon-base payment-success-icon"></mat-icon></p>
     <h2 class="title">¡Pago Exitoso!</h2>
   </mat-card-title>
   <mat-card-content>
-    <p>{{ (patient$ | async)?.firstName }} {{ (patient$ | async)?.lastName }} a continuación podras ver el detalle de tu pago</p>
-    <p>Detalle del Pago: {{ (payment$ | async)?.subject }}</p>
-    <p>Descripción: {{ (payment$ | async)?.body }}</p>
-    <p>Precio: {{ (payment$ | async)?.amount | currency }}</p>
-    <p>Comprobante: <a>{{ (payment$ | async)?.payment_url }}</a></p>
+    <p class="text-center">Felicitationces <strong>{{ (patient$ | async)?.firstName | titlecase }} {{ (patient$ | async)?.lastName | titlecase }}</strong>
+    ahora tienes acceso a una <strong>{{ (payment$ | async)?.body }}.</strong></p>
+    <p class="text-center"><a [href]="(payment$ | async)?.payment_url" target="_blank"><strong>Comprobante</strong></a></p>
+    <mat-divider></mat-divider>
+    <br>
+    <p class="text-center info">Muy pronto se pondrá en contacto contigo tu terapeuta, quién te guiará en este nuevo proceso de autoaprendizaje.</p>
+    <br>
+    <p class="text-center m-1">Gracias por usar <a href="">Mind</a></p>
   </mat-card-content>
 </mat-card>
-
-<button mat-raised-button [routerLink]="">Ir a mi Perfil</button>
